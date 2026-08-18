@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>STONIC AI</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#070b13;
+    color:white;
+}
+
+header{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    border-bottom:1px solid #273044;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.online{
+    color:#55e68a;
+    font-size:13px;
+}
+
+.page{
+    padding:20px 15px;
+}
+
+.panel{
+    display:none;
+}
+
+.hero{
+    text-align:center;
+    padding:40px 10px 30px;
+}
+
+.brain{
+    font-size:70px;
+}
+
+.hero h1{
+    font-size:32px;
+    margin:10px 0;
+}
+
+.subtitle{
+    color:#9da8bb;
+    margin-bottom:25px;
+}
+
+.mainButton{
+    border:0;
+    background:white;
+    color:#080c14;
+    padding:15px 25px;
+    border-radius:30px;
+    font-weight:bold;
+    font-size:16px;
+}
+
+.voiceStatus{
+    margin-top:15px;
+    color:#8f9bb0;
+    font-size:13px;
+    min-height:20px;
+}
+
+.menu{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.menu button{
+    min-height:120px;
+    background:#141d2e;
+    color:white;
+    border:1px solid #293650;
+    border-radius:20px;
+    font-size:34px;
+}
+
+.menu span{
+    display:block;
+    font-size:15px;
+    margin-top:8px;
+}
+
+.back{
+    background:#151e30;
+    color:white;
+    border:1px solid #293650;
+    border-radius:12px;
+    padding:10px 16px;
+    margin-bottom:18px;
+}
+
+.title{
+    font-size:29px;
+    margin-bottom:18px;
+}
+
+
+/* OFFICE */
+
+.office{
+    position:relative;
+    min-height:550px;
+    background:#101827;
+    border:2px solid #293750;
+    border-radius:22px;
+    overflow:hidden;
+}
+
+.floor{
+    position:absolute;
+    inset:0;
+
+    background:
+    linear-gradient(#172238 1px,transparent 1px),
+    linear-gradient(90deg,#172238 1px,transparent 1px);
+
+    background-size:40px 40px;
+}
+
+.desk{
+    position:absolute;
+    width:130px;
+    height:115px;
+
+    background:#182338;
+    border:2px solid #30405e;
+    border-radius:18px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    z-index:2;
+    transition:.3s;
+}
+
+.desk.working{
+    border-color:#55e68a;
+    box-shadow:0 0 20px #55e68a;
+}
+
+.character{
+    font-size:40px;
+}
+
+.agentName{
+    font-size:13px;
+    margin-top:5px;
+    font-weight:bold;
+}
+
+.agentStatus{
+    font-size:10px;
+    margin-top:5px;
+    color:#8d9ab0;
+}
+
+.mainDesk{
+    top:25px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.researchDesk{
+    top:180px;
+    left:10px;
+}
+
+.codingDesk{
+    top:180px;
+    right:10px;
+}
+
+.documentDesk{
+    bottom:20px;
+    left:10px;
+}
+
+.plannerDesk{
+    bottom:20px;
+    right:10px;
+}
+
+
+/* CHAT */
+
+.chatWindow{
+    height:390px;
+    overflow-y:auto;
+    background:#101827;
+    border:1px solid #293750;
+    border-radius:18px;
+    padding:15px;
+    margin-bottom:12px;
+}
+
+.message{
+    max-width:90%;
+    padding:12px;
+    border-radius:14px;
+    margin-bottom:10px;
+    line-height:1.4;
+}
+
+.ai{
+    background:#1a2639;
+}
+
+.user{
+    background:#273650;
+    margin-left:auto;
+}
+
+.chatInput{
+    display:flex;
+    gap:7px;
+}
+
+.chatInput input{
+    min-width:0;
+    flex:1;
+    padding:14px;
+    border-radius:14px;
+    border:1px solid #293750;
+    background:#111827;
+    color:white;
+    outline:none;
+}
+
+.chatInput button{
+    border:0;
+    border-radius:14px;
+    padding:0 13px;
+    background:white;
+    color:#080c14;
+    font-weight:bold;
+}
+
+
+/* TASKS */
+
+.task{
+    background:#111a29;
+    border:1px solid #293750;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:10px;
+}
+
+.done{
+    color:#55e68a;
+}
+
+.workingText{
+    color:#ffd166;
+}
+
+
+/* CONTROL */
+
+.card{
+    background:#111a29;
+    border:1px solid #293750;
+    border-radius:17px;
+    padding:17px;
+    margin-bottom:12px;
+}
+
+.agentRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.status{
+    color:#55e68a;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.toggle{
+    border:0;
+    border-radius:20px;
+    padding:9px 15px;
+    background:#55e68a;
+    font-weight:bold;
+}
+
+.toggle.off{
+    background:#3b4559;
+    color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+
+<header>
+
+<div class="logo">
+⚡ STONIC
+</div>
+
+<div class="online">
+● ONLINE
+</div>
+
+</header>
+
+
+<!-- HOME -->
+
+<div id="home" class="page">
+
+<div class="hero">
+
+<div class="brain">
+🧠
+</div>
+
+<h1>
+STONIC AI
+</h1>
+
+<div class="subtitle">
+Your Personal AI Assistant
+</div>
+
+<button
+class="mainButton"
+onclick="startVoice()">
+
+🎙️ Talk to STONIC
+
+</button>
+
+<div
+id="voiceStatus"
+class="voiceStatus">
+
+Voice system ready
+
+</div>
+
+</div>
+
+
+<div class="menu">
+
+<button onclick="showPage('office')">
+🏢
+<span>AI Office</span>
+</button>
+
+<button onclick="showPage('control')">
+🎛️
+<span>Control Panel</span>
+</button>
+
+<button onclick="showPage('chat')">
+💬
+<span>Chat</span>
+</button>
+
+<button onclick="showPage('tasks')">
+📋
+<span>Tasks</span>
+</button>
+
+</div>
+
+</div>
+
+
+<!-- OFFICE -->
+
+<div id="office" class="page panel">
+
+<button
+class="back"
+onclick="showPage('home')">
+
+← Home
+
+</button>
+
+<div class="title">
+🏢 STONIC AI Office
+</div>
+
+
+<div class="office">
+
+<div class="floor"></div>
+
+
+<div
+id="mainDesk"
+class="desk mainDesk">
+
+<div class="character">
+🧠
+</div>
+
+<div class="agentName">
+MAIN AI
+</div>
+
+<div
+id="mainStatus"
+class="agentStatus">
+
+● IDLE
+
+</div>
+
+</div>
+
+
+<div
+id="researchDesk"
+class="desk researchDesk">
+
+<div class="character">
+🔎
+</div>
+
+<div class="agentName">
+RESEARCH
+</div>
+
+<div
+id="researchStatus"
+class="agentStatus">
+
+● IDLE
+
+</div>
+
+</div>
+
+
+<div
+id="codingDesk"
+class="desk codingDesk">
+
+<div class="character">
+👨‍💻
+</div>
+
+<div class="agentName">
+CODING
+</div>
+
+<div
+id="codingStatus"
+class="agentStatus">
+
+● IDLE
+
+</div>
+
+</div>
+
+
+<div
+id="documentDesk"
+class="desk documentDesk">
+
+<div class="character">
+📄
+</div>
+
+<div class="agentName">
+DOCUMENTS
+</div>
+
+<div
+id="documentStatus"
+class="agentStatus">
+
+● IDLE
+
+</div>
+
+</div>
+
+
+<div
+id="plannerDesk"
+class="desk plannerDesk">
+
+<div class="character">
+📋
+</div>
+
+<div class="agentName">
+PLANNER
+</div>
+
+<div
+id="plannerStatus"
+class="agentStatus">
+
+● IDLE
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CHAT -->
+
+<div id="chat" class="page panel">
+
+<button
+class="back"
+onclick="showPage('home')">
+
+← Home
+
+</button>
+
+<div class="title">
+💬 STONIC Chat
+</div>
+
+
+<div
+id="chatWindow"
+class="chatWindow">
+
+<div class="message ai">
+
+<b>STONIC:</b><br>
+
+Hello! How can I help you?
+
+</div>
+
+</div>
+
+
+<div class="chatInput">
+
+<input
+id="commandInput"
+type="text"
+placeholder="Talk to STONIC..."
+onkeydown="handleEnter(event)"
+>
+
+<button
+onclick="sendCommand()">
+
+SEND
+
+</button>
+
+<button
+onclick="startVoice()">
+
+🎙️
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- TASKS -->
+
+<div id="tasks" class="page panel">
+
+<button
+class="back"
+onclick="showPage('home')">
+
+← Home
+
+</button>
+
+<div class="title">
+📋 Task Manager
+</div>
+
+
+<div id="taskList">
+
+<div class="task">
+
+System Setup
+
+<br>
+
+<span class="done">
+● Completed
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CONTROL -->
+
+<div id="control" class="page panel">
+
+<button
+class="back"
+onclick="showPage('home')">
+
+← Home
+
+</button>
+
+<div class="title">
+🎛️ Control Panel
+</div>
+
+
+<div class="card agentRow">
+
+<div>
+
+🔎 Research Agent
+
+<br>
+
+<span
+id="researchControl"
+class="status">
+
+● ACTIVE
+
+</span>
+
+</div>
+
+<button
+id="researchButton"
+class="toggle"
+onclick="toggleAgent('research')">
+
+ON
+
+</button>
+
+</div>
+
+
+<div class="card agentRow">
+
+<div>
+
+👨‍💻 Coding Agent
+
+<br>
+
+<span
+id="codingControl"
+class="status">
+
+● ACTIVE
+
+</span>
+
+</div>
+
+<button
+id="codingButton"
+class="toggle"
+onclick="toggleAgent('coding')">
+
+ON
+
+</button>
+
+</div>
+
+
+<div class="card agentRow">
+
+<div>
+
+📄 Document Agent
+
+<br>
+
+<span
+id="documentControl"
+class="status">
+
+● ACTIVE
+
+</span>
+
+</div>
+
+<button
+id="documentButton"
+class="toggle"
+onclick="toggleAgent('document')">
+
+ON
+
+</button>
+
+</div>
+
+
+<div class="card agentRow">
+
+<div>
+
+📋 Planner Agent
+
+<br>
+
+<span
+id="plannerControl"
+class="status">
+
+● ACTIVE
+
+</span>
+
+</div>
+
+<button
+id="plannerButton"
+class="toggle"
+onclick="toggleAgent('planner')">
+
+ON
+
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   PAGE SYSTEM
+========================= */
+
+function showPage(page){
+
+const pages=[
+"home",
+"office",
+"chat",
+"tasks",
+"control"
+];
+
+pages.forEach(function(name){
+
+document.getElementById(name).style.display="none";
+
+});
+
+document.getElementById(page).style.display="block";
+
+}
+
+
+/* =========================
+   VOICE SYSTEM
+========================= */
+
+let recognition=null;
+let listening=false;
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+
+if(SpeechRecognition){
+
+recognition=new SpeechRecognition();
+
+recognition.continuous=false;
+
+recognition.interimResults=false;
+
+/*
+  English voice recognition.
+  بعد میں ہم Hindi/Urdu language selector بھی لگا سکتے ہیں.
+*/
+
+recognition.lang="en-US";
+
+
+recognition.onstart=function(){
+
+listening=true;
+
+showPage("chat");
+
+setVoiceStatus(
+"🎙️ Listening..."
+);
+
+addMessage(
+"STONIC 🎙️: I'm listening...",
+"ai"
+);
+
+};
+
+
+recognition.onresult=function(event){
+
+const text=
+event.results[0][0].transcript;
+
+document.getElementById(
+"commandInput"
+).value=text;
+
+addMessage(
+"You 🎙️: "+text,
+"user"
+);
+
+processCommand(text);
+
+};
+
+
+recognition.onerror=function(event){
+
+listening=false;
+
+let message=
+"Voice error. Please try again.";
+
+if(event.error==="not-allowed"){
+
+message=
+"Microphone permission was denied.";
+
+}
+
+else if(event.error==="no-speech"){
+
+message=
+"I didn't hear anything.";
+
+}
+
+setVoiceStatus("⚠️ "+message);
+
+addMessage(
+"STONIC: "+message,
+"ai"
+);
+
+};
+
+
+recognition.onend=function(){
+
+listening=false;
+
+};
+
+}
+
+
+/* START VOICE */
+
+function startVoice(){
+
+if(!recognition){
+
+setVoiceStatus(
+"⚠️ Voice recognition isn't supported here."
+);
+
+speak(
+"Voice recognition is not supported in this browser."
+);
+
+return;
+
+}
+
+if(listening){
+
+recognition.stop();
+
+return;
+
+}
+
+setVoiceStatus(
+"🎙️ Starting microphone..."
+);
+
+try{
+
+recognition.start();
+
+}
+
+catch(error){
+
+setVoiceStatus(
+"⚠️ Please try again."
+);
+
+}
+
+}
+
+
+/* STATUS */
+
+function setVoiceStatus(text){
+
+const status=
+document.getElementById("voiceStatus");
+
+if(status){
+
+status.textContent=text;
+
+}
+
+}
+
+
+/* =========================
+   TEXT CHAT
+========================= */
+
+function sendCommand(){
+
+const input=
+document.getElementById("commandInput");
+
+const text=
+input.value.trim();
+
+if(text===""){
+
+return;
+
+}
+
+addMessage(
+"You: "+text,
+"user"
+);
+
+input.value="";
+
+processCommand(text);
+
+}
+
+
+function handleEnter(event){
+
+if(event.key==="Enter"){
+
+sendCommand();
+
+}
+
+}
+
+
+/* =========================
+   SMART COMMAND ROUTER
+========================= */
+
+function processCommand(text){
+
+const lower=text.toLowerCase();
+
+
+/*
+  IMPORTANT:
+  عام سوالوں کو کسی agent کے پاس نہیں بھیجیں گے.
+*/
+
+
+/* HOW ARE YOU */
+
+if(
+lower.includes("how are you") ||
+lower.includes("how r u") ||
+lower.includes("how are u") ||
+lower.includes("kaise ho") ||
+lower.includes("कैसे हो")
+){
+
+reply(
+"I'm doing great. I'm ready to help you."
+);
+
+return;
+
+}
+
+
+/* HELLO */
+
+if(
+lower==="hello" ||
+lower==="hi" ||
+lower==="hey" ||
+lower.includes("hello stonic")
+){
+
+reply(
+"Hello! I'm STONIC. What would you like me to do?"
+);
+
+return;
+
+}
+
+
+/* THANKS */
+
+if(
+lower.includes("thank you") ||
+lower.includes("thanks")
+){
+
+reply(
+"You're welcome!"
+);
+
+return;
+
+}
+
+
+/* WHO ARE YOU */
+
+if(
+lower.includes("who are you") ||
+lower.includes("what are you")
+){
+
+reply(
+"I'm STONIC, your personal AI assistant."
+);
+
+return;
+
+}
+
+
+/* RESEARCH */
+
+if(
+lower.includes("search") ||
+lower.includes("research") ||
+lower.includes("find information") ||
+lower.includes("look up")
+){
+
+assignAgent(
+"research",
+text
+);
+
+return;
+
+}
+
+
+/* CODING */
+
+if(
+lower.includes("write code") ||
+lower.includes("make code") ||
+lower.includes("coding") ||
+lower.includes("program") ||
+lower.includes("debug code")
+){
+
+assignAgent(
+"coding",
+text
+);
+
+return;
+
+}
+
+
+/* DOCUMENT */
+
+if(
+lower.includes("write a report") ||
+lower.includes("make a document") ||
+lower.includes("create a document")
+){
+
+assignAgent(
+"document",
+text
+);
+
+return;
+
+}
+
+
+/* PLANNER */
+
+if(
+lower.includes("make a plan") ||
+lower.includes("create a plan") ||
+lower.includes("schedule")
+){
+
+assignAgent(
+"planner",
+text
+);
+
+return;
+
+}
+
+
+/*
+  GENERAL COMMAND
+  Agent کو automatically نہیں بھیجیں گے.
+*/
+
+reply(
+"I understand. Tell me specifically what you want me to do."
+);
+
+}
+
+
+/* =========================
+   NORMAL AI-STYLE REPLY
+========================= */
+
+function reply(text){
+
+addMessage(
+"STONIC 🔊: "+text,
+"ai"
+);
+
+speak(text);
+
+}
+
+
+/* =========================
+   AGENT ASSIGNMENT
+========================= */
+
+function assignAgent(agent,task){
+
+const names={
+
+research:"Research Agent 🔎",
+
+coding:"Coding Agent 👨‍💻",
+
+document:"Document Agent 📄",
+
+planner:"Planner Agent 📋"
+
+};
+
+const response=
+"Okay. I'm assigning this task to "
++names[agent]+".";
+
+addMessage(
+"STONIC 🔊: "+response,
+"ai"
+);
+
+speak(response);
+
+showPage("office");
+
+startAgent(
+agent,
+task
+);
+
+}
+
+
+/* =========================
+   START AGENT
+========================= */
+
+function startAgent(agent,task){
+
+const desk=
+document.getElementById(
+agent+"Desk"
+);
+
+const status=
+document.getElementById(
+agent+"Status"
+);
+
+
+if(!desk || !status){
+
+return;
+
+}
+
+
+desk.classList.add("working");
+
+status.textContent=
+"● WORKING";
+
+status.style.color=
+"#55e68a";
+
+
+const taskList=
+document.getElementById(
+"taskList"
+);
+
+const taskElement=
+document.createElement("div");
+
+taskElement.className=
+"task";
+
+taskElement.innerHTML=
+"<b>"+
+escapeHTML(task)+
+"</b><br>"+
+"<span class='workingText'>"+
+"● Working — "+
+agent+
+" agent"+
+"</span>";
+
+taskList.prepend(
+taskElement
+);
+
+
+/* Demo completion */
+
+setTimeout(function(){
+
+desk.classList.remove(
+"working"
+);
+
+status.textContent=
+"● DONE";
+
+status.style.color=
+"#62b6ff";
+
+
+taskElement.innerHTML=
+"<b>"+
+escapeHTML(task)+
+"</b><br>"+
+"<span class='done'>"+
+"● Completed"+
+"</span>";
+
+
+const finished=
+"That task has been completed.";
+
+addMessage(
+"STONIC 🔊: "+finished,
+"ai"
+);
+
+speak(finished);
+
+},5000);
+
+}
+
+
+/* =========================
+   CHAT MESSAGE
+========================= */
+
+function addMessage(
+text,
+type
+){
+
+const windowElement=
+document.getElementById(
+"chatWindow"
+);
+
+const message=
+document.createElement(
+"div"
+);
+
+message.className=
+"message "+type;
+
+message.textContent=
+text;
+
+windowElement.appendChild(
+message
+);
+
+windowElement.scrollTop=
+windowElement.scrollHeight;
+
+}
+
+
+/* =========================
+   TEXT TO SPEECH
+========================= */
+
+function speak(text){
+
+if(!("speechSynthesis" in window)){
+
+setVoiceStatus(
+"⚠️ Speech output isn't supported."
+);
+
+return;
+
+}
+
+window.speechSynthesis.cancel();
+
+const voice=
+new SpeechSynthesisUtterance(
+text
+);
+
+voice.lang="en-US";
+
+voice.rate=0.95;
+
+voice.pitch=1;
+
+voice.volume=1;
+
+voice.onstart=function(){
+
+setVoiceStatus(
+"🔊 STONIC is speaking..."
+);
+
+};
+
+voice.onend=function(){
+
+setVoiceStatus(
+"Voice system ready"
+);
+
+};
+
+window.speechSynthesis.speak(
+voice
+);
+
+}
+
+
+/* =========================
+   SAFE TEXT
+========================= */
+
+function escapeHTML(text){
+
+return text
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;");
+
+}
+
+
+/* =========================
+   AGENT TOGGLE
+========================= */
+
+function toggleAgent(agent){
+
+const button=
+document.getElementById(
+agent+"Button"
+);
+
+const status=
+document.getElementById(
+agent+"Control"
+);
+
+
+if(
+button.textContent.trim()==="ON"
+){
+
+button.textContent="OFF";
+
+button.classList.add("off");
+
+status.textContent=
+"● DISABLED";
+
+status.style.color=
+"#ff6b6b";
+
+}
+
+else{
+
+button.textContent="ON";
+
+button.classList.remove("off");
+
+status.textContent=
+"● ACTIVE";
+
+status.style.color=
+"#55e68a";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
