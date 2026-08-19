@@ -74,6 +74,7 @@ header{
     border-radius:30px;
     font-weight:bold;
     font-size:16px;
+    cursor:pointer;
 }
 
 .voiceStatus{
@@ -96,6 +97,7 @@ header{
     border:1px solid #293650;
     border-radius:20px;
     font-size:34px;
+    cursor:pointer;
 }
 
 .menu span{
@@ -111,6 +113,7 @@ header{
     border-radius:12px;
     padding:10px 16px;
     margin-bottom:18px;
+    cursor:pointer;
 }
 
 .title{
@@ -259,6 +262,7 @@ header{
     background:white;
     color:#080c14;
     font-weight:bold;
+    cursor:pointer;
 }
 
 
@@ -309,6 +313,7 @@ header{
     padding:9px 15px;
     background:#55e68a;
     font-weight:bold;
+    cursor:pointer;
 }
 
 .toggle.off{
@@ -320,6 +325,7 @@ header{
 </head>
 
 <body>
+
 
 <header>
 
@@ -414,9 +420,11 @@ onclick="showPage('home')">
 🏢 STONIC AI Office
 </div>
 
+
 <div class="office">
 
 <div class="floor"></div>
+
 
 <div
 id="mainDesk"
@@ -790,11 +798,21 @@ function showPage(page){
 
     pages.forEach(function(name){
 
-        document.getElementById(name).style.display = "none";
+        const element =
+            document.getElementById(name);
+
+        if(element){
+            element.style.display = "none";
+        }
 
     });
 
-    document.getElementById(page).style.display = "block";
+    const selected =
+        document.getElementById(page);
+
+    if(selected){
+        selected.style.display = "block";
+    }
 }
 
 
@@ -803,6 +821,7 @@ function showPage(page){
 ========================= */
 
 let recognition = null;
+
 let listening = false;
 let speaking = false;
 let restarting = false;
@@ -814,36 +833,89 @@ const SpeechRecognition =
 
 if(SpeechRecognition){
 
-    recognition = new SpeechRecognition();
+    recognition =
+        new SpeechRecognition();
 
     recognition.continuous = false;
+
     recognition.interimResults = false;
 
     recognition.lang = "en-US";
 
 
+    /* MICROPHONE START */
+
     recognition.onstart = function(){
 
         restarting = false;
 
-        setVoiceStatus(
-            "🎙️ Listening..."
-        );
+        if(
+            listening &&
+            !speaking
+        ){
+
+            setVoiceStatus(
+                "🎙️ Listening continuously..."
+            );
+
+        }
 
     };
 
 
+    /* SPEECH RESULT */
+
     recognition.onresult = function(event){
 
-        const text =
-            event.results[
-                event.results.length - 1
-            ][0].transcript.trim();
+        if(!listening){
+            return;
+        }
+
+
+        let text = "";
+
+
+        for(
+            let i = event.resultIndex;
+            i < event.results.length;
+            i++
+        ){
+
+            if(
+                event.results[i].isFinal
+            ){
+
+                text +=
+                    event.results[i][0]
+                    .transcript;
+
+            }
+
+        }
+
+
+        text = text.trim();
 
 
         if(!text){
             return;
         }
+
+
+        /*
+           User finished speaking.
+           Stop recognition before STONIC talks.
+        */
+
+        speaking = true;
+
+
+        try{
+
+            recognition.stop();
+
+        }
+        catch(error){}
 
 
         const input =
@@ -853,7 +925,9 @@ if(SpeechRecognition){
 
 
         if(input){
+
             input.value = text;
+
         }
 
 
@@ -863,14 +937,22 @@ if(SpeechRecognition){
         );
 
 
-        processCommand(text);
+        setTimeout(function(){
+
+            processCommand(text);
+
+        },200);
 
     };
 
 
-    recognition.onerror = function(event){
+    /* ERRORS */
+
+    recognition.onerror =
+        function(event){
 
         restarting = false;
+
 
         console.log(
             "Voice error:",
@@ -878,9 +960,14 @@ if(SpeechRecognition){
         );
 
 
-        if(event.error === "not-allowed"){
+        if(
+            event.error ===
+            "not-allowed"
+        ){
 
             listening = false;
+
+            speaking = false;
 
             setVoiceStatus(
                 "⚠️ Microphone permission denied"
@@ -895,36 +982,22 @@ if(SpeechRecognition){
         }
 
 
-        if(event.error === "no-speech"){
+        /*
+           Silence is NOT a reason to turn
+           our voice system OFF.
+        */
+
+        if(
+            event.error ===
+            "no-speech"
+        ){
 
             setVoiceStatus(
-                "🎙️ I didn't hear you. Listening again..."
+                "🎙️ Still listening..."
             );
 
             return;
         }
-
-
-        if(event.error === "aborted"){
-
-            return;
-        }
-
-
-        if(listening){
-
-            setVoiceStatus(
-                "🎙️ Reconnecting microphone..."
-            );
-
-        }
-
-    };
-
-
-    recognition.onend = function(){
-
-        restarting = false;
 
 
         if(
@@ -933,22 +1006,37 @@ if(SpeechRecognition){
         ){
 
             setVoiceStatus(
-                "🎙️ Listening again..."
+                "🎙️ Reconnecting..."
+            );
+
+        }
+
+    };
+
+
+    /* SESSION ENDED */
+
+    recognition.onend = function(){
+
+        restarting = false;
+
+
+        /*
+           Chrome can end recognition after
+           silence. Restart it automatically.
+        */
+
+        if(
+            listening &&
+            !speaking
+        ){
+
+            setVoiceStatus(
+                "🎙️ Listening continuously..."
             );
 
 
-            setTimeout(function(){
-
-                if(
-                    listening &&
-                    !speaking
-                ){
-
-                    startRecognition();
-
-                }
-
-            },500);
+            restartRecognition();
 
         }
 
@@ -958,66 +1046,10 @@ if(SpeechRecognition){
 
 
 /* =========================
-   START / STOP VOICE
+   RESTART RECOGNITION
 ========================= */
 
-function startVoice(){
-
-    if(!recognition){
-
-        setVoiceStatus(
-            "⚠️ Voice recognition is not supported in this browser."
-        );
-
-        speak(
-            "Voice recognition is not supported in this browser."
-        );
-
-        return;
-    }
-
-
-    if(listening){
-
-        listening = false;
-
-        speaking = false;
-
-        try{
-
-            recognition.stop();
-
-        }
-        catch(error){}
-
-
-        setVoiceStatus(
-            "🎙️ Microphone OFF"
-        );
-
-        return;
-    }
-
-
-    listening = true;
-
-    showPage("chat");
-
-    setVoiceStatus(
-        "🎙️ Starting microphone..."
-    );
-
-
-    startRecognition();
-
-}
-
-
-/* =========================
-   START RECOGNITION
-========================= */
-
-function startRecognition(){
+function restartRecognition(){
 
     if(
         !recognition ||
@@ -1042,26 +1074,94 @@ function startRecognition(){
 
         restarting = false;
 
-        console.log(
-            "Recognition start:",
-            error.message
-        );
 
+        if(
+            listening &&
+            !speaking
+        ){
 
-        setTimeout(function(){
+            setTimeout(function(){
 
-            if(
-                listening &&
-                !speaking
-            ){
+                restartRecognition();
 
-                startRecognition();
+            },500);
 
-            }
-
-        },700);
+        }
 
     }
+
+}
+
+
+/* =========================
+   MAIN VOICE BUTTON
+========================= */
+
+function startVoice(){
+
+    if(!recognition){
+
+        setVoiceStatus(
+            "⚠️ Voice recognition is not supported in this browser."
+        );
+
+        return;
+    }
+
+
+    /*
+       Press button again = OFF
+    */
+
+    if(listening){
+
+        listening = false;
+
+        speaking = false;
+
+
+        try{
+
+            recognition.stop();
+
+        }
+        catch(error){}
+
+
+        if(
+            "speechSynthesis" in window
+        ){
+
+            window.speechSynthesis.cancel();
+
+        }
+
+
+        setVoiceStatus(
+            "🎙️ Microphone OFF"
+        );
+
+        return;
+    }
+
+
+    /*
+       First press = ON
+    */
+
+    listening = true;
+
+    speaking = false;
+
+    showPage("chat");
+
+
+    setVoiceStatus(
+        "🎙️ Starting continuous listening..."
+    );
+
+
+    restartRecognition();
 
 }
 
@@ -1104,9 +1204,7 @@ function sendCommand(){
 
 
     if(text === ""){
-
         return;
-
     }
 
 
@@ -1126,7 +1224,9 @@ function sendCommand(){
 
 function handleEnter(event){
 
-    if(event.key === "Enter"){
+    if(
+        event.key === "Enter"
+    ){
 
         sendCommand();
 
@@ -1136,7 +1236,7 @@ function handleEnter(event){
 
 
 /* =========================
-   SMART COMMAND ROUTER
+   COMMAND ROUTER
 ========================= */
 
 function processCommand(text){
@@ -1144,6 +1244,8 @@ function processCommand(text){
     const lower =
         text.toLowerCase();
 
+
+    /* HOW ARE YOU */
 
     if(
         lower.includes("how are you") ||
@@ -1161,6 +1263,8 @@ function processCommand(text){
     }
 
 
+    /* HELLO */
+
     if(
         lower === "hello" ||
         lower === "hi" ||
@@ -1176,6 +1280,8 @@ function processCommand(text){
     }
 
 
+    /* THANKS */
+
     if(
         lower.includes("thank you") ||
         lower.includes("thanks")
@@ -1189,6 +1295,8 @@ function processCommand(text){
     }
 
 
+    /* WHO ARE YOU */
+
     if(
         lower.includes("who are you") ||
         lower.includes("what are you")
@@ -1201,6 +1309,8 @@ function processCommand(text){
         return;
     }
 
+
+    /* RESEARCH */
 
     if(
         lower.includes("search") ||
@@ -1217,6 +1327,8 @@ function processCommand(text){
         return;
     }
 
+
+    /* CODING */
 
     if(
         lower.includes("write code") ||
@@ -1235,6 +1347,8 @@ function processCommand(text){
     }
 
 
+    /* DOCUMENT */
+
     if(
         lower.includes("write a report") ||
         lower.includes("make a document") ||
@@ -1250,6 +1364,8 @@ function processCommand(text){
     }
 
 
+    /* PLANNER */
+
     if(
         lower.includes("make a plan") ||
         lower.includes("create a plan") ||
@@ -1264,6 +1380,8 @@ function processCommand(text){
         return;
     }
 
+
+    /* GENERAL */
 
     reply(
         "I understand. Tell me specifically what you want me to do."
@@ -1283,34 +1401,51 @@ function reply(text){
         "ai"
     );
 
+
     speak(text);
 
 }
 
 
 /* =========================
-   STONIC VOICE
+   TEXT TO SPEECH
 ========================= */
 
 function speak(text){
 
-    if(!("speechSynthesis" in window)){
+    if(
+        !("speechSynthesis" in window)
+    ){
+
+        speaking = false;
 
         setVoiceStatus(
             "⚠️ Speech output isn't supported."
         );
 
+        if(listening){
+
+            setTimeout(
+                restartRecognition,
+                300
+            );
+
+        }
+
         return;
     }
 
 
+    /*
+       STONIC is speaking.
+       Microphone stays stopped while
+       STONIC speaks.
+    */
+
     speaking = true;
 
 
-    if(
-        recognition &&
-        listening
-    ){
+    if(recognition){
 
         try{
 
@@ -1353,9 +1488,18 @@ function speak(text){
 
         speaking = false;
 
+
         if(listening){
 
-            startRecognition();
+            setVoiceStatus(
+                "🎙️ Listening continuously..."
+            );
+
+
+            setTimeout(
+                restartRecognition,
+                300
+            );
 
         }
 
@@ -1367,22 +1511,30 @@ function speak(text){
         speaking = false;
 
 
+        /*
+           STONIC finished speaking.
+           Turn microphone listening back ON.
+        */
+
         if(listening){
 
             setVoiceStatus(
-                "🎙️ Listening again..."
+                "🎙️ Listening continuously..."
             );
 
 
             setTimeout(function(){
 
-                if(listening){
+                if(
+                    listening &&
+                    !speaking
+                ){
 
-                    startRecognition();
+                    restartRecognition();
 
                 }
 
-            },400);
+            },350);
 
         }
         else{
@@ -1411,13 +1563,17 @@ function assignAgent(agent,task){
 
     const names = {
 
-        research:"Research Agent 🔎",
+        research:
+        "Research Agent 🔎",
 
-        coding:"Coding Agent 👨‍💻",
+        coding:
+        "Coding Agent 👨‍💻",
 
-        document:"Document Agent 📄",
+        document:
+        "Document Agent 📄",
 
-        planner:"Planner Agent 📋"
+        planner:
+        "Planner Agent 📋"
 
     };
 
@@ -1465,7 +1621,10 @@ function startAgent(agent,task){
         );
 
 
-    if(!desk || !status){
+    if(
+        !desk ||
+        !status
+    ){
 
         return;
 
@@ -1571,6 +1730,11 @@ function addMessage(
         document.getElementById(
             "chatWindow"
         );
+
+
+    if(!windowElement){
+        return;
+    }
 
 
     const message =
