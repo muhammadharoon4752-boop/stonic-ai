@@ -321,7 +321,6 @@ header{
 
 <body>
 
-
 <header>
 
 <div class="logo">
@@ -415,11 +414,9 @@ onclick="showPage('home')">
 🏢 STONIC AI Office
 </div>
 
-
 <div class="office">
 
 <div class="floor"></div>
-
 
 <div
 id="mainDesk"
@@ -777,196 +774,315 @@ ON
 
 <script>
 
-
 /* =========================
    PAGE SYSTEM
 ========================= */
 
 function showPage(page){
 
-const pages=[
-"home",
-"office",
-"chat",
-"tasks",
-"control"
-];
+    const pages = [
+        "home",
+        "office",
+        "chat",
+        "tasks",
+        "control"
+    ];
 
-pages.forEach(function(name){
+    pages.forEach(function(name){
 
-document.getElementById(name).style.display="none";
+        document.getElementById(name).style.display = "none";
 
-});
+    });
 
-document.getElementById(page).style.display="block";
+    document.getElementById(page).style.display = "block";
+}
+
+
+/* =========================
+   CONTINUOUS VOICE SYSTEM
+========================= */
+
+let recognition = null;
+let listening = false;
+let speaking = false;
+let restarting = false;
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+if(SpeechRecognition){
+
+    recognition = new SpeechRecognition();
+
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.lang = "en-US";
+
+
+    recognition.onstart = function(){
+
+        restarting = false;
+
+        setVoiceStatus(
+            "🎙️ Listening..."
+        );
+
+    };
+
+
+    recognition.onresult = function(event){
+
+        const text =
+            event.results[
+                event.results.length - 1
+            ][0].transcript.trim();
+
+
+        if(!text){
+            return;
+        }
+
+
+        const input =
+            document.getElementById(
+                "commandInput"
+            );
+
+
+        if(input){
+            input.value = text;
+        }
+
+
+        addMessage(
+            "You 🎙️: " + text,
+            "user"
+        );
+
+
+        processCommand(text);
+
+    };
+
+
+    recognition.onerror = function(event){
+
+        restarting = false;
+
+        console.log(
+            "Voice error:",
+            event.error
+        );
+
+
+        if(event.error === "not-allowed"){
+
+            listening = false;
+
+            setVoiceStatus(
+                "⚠️ Microphone permission denied"
+            );
+
+            addMessage(
+                "STONIC: Please allow microphone permission in Chrome.",
+                "ai"
+            );
+
+            return;
+        }
+
+
+        if(event.error === "no-speech"){
+
+            setVoiceStatus(
+                "🎙️ I didn't hear you. Listening again..."
+            );
+
+            return;
+        }
+
+
+        if(event.error === "aborted"){
+
+            return;
+        }
+
+
+        if(listening){
+
+            setVoiceStatus(
+                "🎙️ Reconnecting microphone..."
+            );
+
+        }
+
+    };
+
+
+    recognition.onend = function(){
+
+        restarting = false;
+
+
+        if(
+            listening &&
+            !speaking
+        ){
+
+            setVoiceStatus(
+                "🎙️ Listening again..."
+            );
+
+
+            setTimeout(function(){
+
+                if(
+                    listening &&
+                    !speaking
+                ){
+
+                    startRecognition();
+
+                }
+
+            },500);
+
+        }
+
+    };
 
 }
 
 
 /* =========================
-   VOICE SYSTEM
+   START / STOP VOICE
 ========================= */
-
-let recognition=null;
-let listening=false;
-
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
-
-
-if(SpeechRecognition){
-
-recognition=new SpeechRecognition();
-
-recognition.continuous=false;
-
-recognition.interimResults=false;
-
-/*
-  English voice recognition.
-  بعد میں ہم Hindi/Urdu language selector بھی لگا سکتے ہیں.
-*/
-
-recognition.lang="en-US";
-
-
-recognition.onstart=function(){
-
-listening=true;
-
-showPage("chat");
-
-setVoiceStatus(
-"🎙️ Listening..."
-);
-
-addMessage(
-"STONIC 🎙️: I'm listening...",
-"ai"
-);
-
-};
-
-
-recognition.onresult=function(event){
-
-const text=
-event.results[0][0].transcript;
-
-document.getElementById(
-"commandInput"
-).value=text;
-
-addMessage(
-"You 🎙️: "+text,
-"user"
-);
-
-processCommand(text);
-
-};
-
-
-recognition.onerror=function(event){
-
-listening=false;
-
-let message=
-"Voice error. Please try again.";
-
-if(event.error==="not-allowed"){
-
-message=
-"Microphone permission was denied.";
-
-}
-
-else if(event.error==="no-speech"){
-
-message=
-"I didn't hear anything.";
-
-}
-
-setVoiceStatus("⚠️ "+message);
-
-addMessage(
-"STONIC: "+message,
-"ai"
-);
-
-};
-
-
-recognition.onend=function(){
-
-listening=false;
-
-};
-
-}
-
-
-/* START VOICE */
 
 function startVoice(){
 
-if(!recognition){
+    if(!recognition){
 
-setVoiceStatus(
-"⚠️ Voice recognition isn't supported here."
-);
+        setVoiceStatus(
+            "⚠️ Voice recognition is not supported in this browser."
+        );
 
-speak(
-"Voice recognition is not supported in this browser."
-);
+        speak(
+            "Voice recognition is not supported in this browser."
+        );
 
-return;
+        return;
+    }
+
+
+    if(listening){
+
+        listening = false;
+
+        speaking = false;
+
+        try{
+
+            recognition.stop();
+
+        }
+        catch(error){}
+
+
+        setVoiceStatus(
+            "🎙️ Microphone OFF"
+        );
+
+        return;
+    }
+
+
+    listening = true;
+
+    showPage("chat");
+
+    setVoiceStatus(
+        "🎙️ Starting microphone..."
+    );
+
+
+    startRecognition();
 
 }
 
-if(listening){
 
-recognition.stop();
+/* =========================
+   START RECOGNITION
+========================= */
 
-return;
+function startRecognition(){
+
+    if(
+        !recognition ||
+        !listening ||
+        speaking ||
+        restarting
+    ){
+
+        return;
+    }
+
+
+    restarting = true;
+
+
+    try{
+
+        recognition.start();
+
+    }
+    catch(error){
+
+        restarting = false;
+
+        console.log(
+            "Recognition start:",
+            error.message
+        );
+
+
+        setTimeout(function(){
+
+            if(
+                listening &&
+                !speaking
+            ){
+
+                startRecognition();
+
+            }
+
+        },700);
+
+    }
 
 }
 
-setVoiceStatus(
-"🎙️ Starting microphone..."
-);
 
-try{
-
-recognition.start();
-
-}
-
-catch(error){
-
-setVoiceStatus(
-"⚠️ Please try again."
-);
-
-}
-
-}
-
-
-/* STATUS */
+/* =========================
+   VOICE STATUS
+========================= */
 
 function setVoiceStatus(text){
 
-const status=
-document.getElementById("voiceStatus");
+    const status =
+        document.getElementById(
+            "voiceStatus"
+        );
 
-if(status){
 
-status.textContent=text;
+    if(status){
 
-}
+        status.textContent = text;
+
+    }
 
 }
 
@@ -977,37 +1093,44 @@ status.textContent=text;
 
 function sendCommand(){
 
-const input=
-document.getElementById("commandInput");
+    const input =
+        document.getElementById(
+            "commandInput"
+        );
 
-const text=
-input.value.trim();
 
-if(text===""){
+    const text =
+        input.value.trim();
 
-return;
 
-}
+    if(text === ""){
 
-addMessage(
-"You: "+text,
-"user"
-);
+        return;
 
-input.value="";
+    }
 
-processCommand(text);
+
+    addMessage(
+        "You: " + text,
+        "user"
+    );
+
+
+    input.value = "";
+
+
+    processCommand(text);
 
 }
 
 
 function handleEnter(event){
 
-if(event.key==="Enter"){
+    if(event.key === "Enter"){
 
-sendCommand();
+        sendCommand();
 
-}
+    }
 
 }
 
@@ -1018,183 +1141,264 @@ sendCommand();
 
 function processCommand(text){
 
-const lower=text.toLowerCase();
+    const lower =
+        text.toLowerCase();
 
 
-/*
-  IMPORTANT:
-  عام سوالوں کو کسی agent کے پاس نہیں بھیجیں گے.
-*/
+    if(
+        lower.includes("how are you") ||
+        lower.includes("how r u") ||
+        lower.includes("how are u") ||
+        lower.includes("kaise ho") ||
+        lower.includes("कैसे हो")
+    ){
+
+        reply(
+            "I'm doing great. I'm ready to help you."
+        );
+
+        return;
+    }
 
 
-/* HOW ARE YOU */
+    if(
+        lower === "hello" ||
+        lower === "hi" ||
+        lower === "hey" ||
+        lower.includes("hello stonic")
+    ){
 
-if(
-lower.includes("how are you") ||
-lower.includes("how r u") ||
-lower.includes("how are u") ||
-lower.includes("kaise ho") ||
-lower.includes("कैसे हो")
-){
+        reply(
+            "Hello! I'm STONIC. What would you like me to do?"
+        );
 
-reply(
-"I'm doing great. I'm ready to help you."
-);
-
-return;
-
-}
+        return;
+    }
 
 
-/* HELLO */
+    if(
+        lower.includes("thank you") ||
+        lower.includes("thanks")
+    ){
 
-if(
-lower==="hello" ||
-lower==="hi" ||
-lower==="hey" ||
-lower.includes("hello stonic")
-){
+        reply(
+            "You're welcome!"
+        );
 
-reply(
-"Hello! I'm STONIC. What would you like me to do?"
-);
-
-return;
-
-}
+        return;
+    }
 
 
-/* THANKS */
+    if(
+        lower.includes("who are you") ||
+        lower.includes("what are you")
+    ){
 
-if(
-lower.includes("thank you") ||
-lower.includes("thanks")
-){
+        reply(
+            "I'm STONIC, your personal AI assistant."
+        );
 
-reply(
-"You're welcome!"
-);
-
-return;
-
-}
+        return;
+    }
 
 
-/* WHO ARE YOU */
+    if(
+        lower.includes("search") ||
+        lower.includes("research") ||
+        lower.includes("find information") ||
+        lower.includes("look up")
+    ){
 
-if(
-lower.includes("who are you") ||
-lower.includes("what are you")
-){
+        assignAgent(
+            "research",
+            text
+        );
 
-reply(
-"I'm STONIC, your personal AI assistant."
-);
-
-return;
-
-}
-
-
-/* RESEARCH */
-
-if(
-lower.includes("search") ||
-lower.includes("research") ||
-lower.includes("find information") ||
-lower.includes("look up")
-){
-
-assignAgent(
-"research",
-text
-);
-
-return;
-
-}
+        return;
+    }
 
 
-/* CODING */
+    if(
+        lower.includes("write code") ||
+        lower.includes("make code") ||
+        lower.includes("coding") ||
+        lower.includes("program") ||
+        lower.includes("debug code")
+    ){
 
-if(
-lower.includes("write code") ||
-lower.includes("make code") ||
-lower.includes("coding") ||
-lower.includes("program") ||
-lower.includes("debug code")
-){
+        assignAgent(
+            "coding",
+            text
+        );
 
-assignAgent(
-"coding",
-text
-);
-
-return;
-
-}
+        return;
+    }
 
 
-/* DOCUMENT */
+    if(
+        lower.includes("write a report") ||
+        lower.includes("make a document") ||
+        lower.includes("create a document")
+    ){
 
-if(
-lower.includes("write a report") ||
-lower.includes("make a document") ||
-lower.includes("create a document")
-){
+        assignAgent(
+            "document",
+            text
+        );
 
-assignAgent(
-"document",
-text
-);
-
-return;
-
-}
+        return;
+    }
 
 
-/* PLANNER */
+    if(
+        lower.includes("make a plan") ||
+        lower.includes("create a plan") ||
+        lower.includes("schedule")
+    ){
 
-if(
-lower.includes("make a plan") ||
-lower.includes("create a plan") ||
-lower.includes("schedule")
-){
+        assignAgent(
+            "planner",
+            text
+        );
 
-assignAgent(
-"planner",
-text
-);
-
-return;
-
-}
+        return;
+    }
 
 
-/*
-  GENERAL COMMAND
-  Agent کو automatically نہیں بھیجیں گے.
-*/
-
-reply(
-"I understand. Tell me specifically what you want me to do."
-);
+    reply(
+        "I understand. Tell me specifically what you want me to do."
+    );
 
 }
 
 
 /* =========================
-   NORMAL AI-STYLE REPLY
+   NORMAL REPLY
 ========================= */
 
 function reply(text){
 
-addMessage(
-"STONIC 🔊: "+text,
-"ai"
-);
+    addMessage(
+        "STONIC 🔊: " + text,
+        "ai"
+    );
 
-speak(text);
+    speak(text);
+
+}
+
+
+/* =========================
+   STONIC VOICE
+========================= */
+
+function speak(text){
+
+    if(!("speechSynthesis" in window)){
+
+        setVoiceStatus(
+            "⚠️ Speech output isn't supported."
+        );
+
+        return;
+    }
+
+
+    speaking = true;
+
+
+    if(
+        recognition &&
+        listening
+    ){
+
+        try{
+
+            recognition.stop();
+
+        }
+        catch(error){}
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const voice =
+        new SpeechSynthesisUtterance(
+            text
+        );
+
+
+    voice.lang = "en-US";
+
+    voice.rate = 0.88;
+
+    voice.pitch = 1.02;
+
+    voice.volume = 1;
+
+
+    voice.onstart = function(){
+
+        setVoiceStatus(
+            "🔊 STONIC is speaking..."
+        );
+
+    };
+
+
+    voice.onerror = function(){
+
+        speaking = false;
+
+        if(listening){
+
+            startRecognition();
+
+        }
+
+    };
+
+
+    voice.onend = function(){
+
+        speaking = false;
+
+
+        if(listening){
+
+            setVoiceStatus(
+                "🎙️ Listening again..."
+            );
+
+
+            setTimeout(function(){
+
+                if(listening){
+
+                    startRecognition();
+
+                }
+
+            },400);
+
+        }
+        else{
+
+            setVoiceStatus(
+                "Voice system ready"
+            );
+
+        }
+
+    };
+
+
+    window.speechSynthesis.speak(
+        voice
+    );
 
 }
 
@@ -1205,35 +1409,40 @@ speak(text);
 
 function assignAgent(agent,task){
 
-const names={
+    const names = {
 
-research:"Research Agent 🔎",
+        research:"Research Agent 🔎",
 
-coding:"Coding Agent 👨‍💻",
+        coding:"Coding Agent 👨‍💻",
 
-document:"Document Agent 📄",
+        document:"Document Agent 📄",
 
-planner:"Planner Agent 📋"
+        planner:"Planner Agent 📋"
 
-};
+    };
 
-const response=
-"Okay. I'm assigning this task to "
-+names[agent]+".";
 
-addMessage(
-"STONIC 🔊: "+response,
-"ai"
-);
+    const response =
+        "Okay. I'm assigning this task to "
+        + names[agent] + ".";
 
-speak(response);
 
-showPage("office");
+    addMessage(
+        "STONIC 🔊: " + response,
+        "ai"
+    );
 
-startAgent(
-agent,
-task
-);
+
+    speak(response);
+
+
+    showPage("office");
+
+
+    startAgent(
+        agent,
+        task
+    );
 
 }
 
@@ -1244,94 +1453,107 @@ task
 
 function startAgent(agent,task){
 
-const desk=
-document.getElementById(
-agent+"Desk"
-);
-
-const status=
-document.getElementById(
-agent+"Status"
-);
+    const desk =
+        document.getElementById(
+            agent + "Desk"
+        );
 
 
-if(!desk || !status){
-
-return;
-
-}
-
-
-desk.classList.add("working");
-
-status.textContent=
-"● WORKING";
-
-status.style.color=
-"#55e68a";
+    const status =
+        document.getElementById(
+            agent + "Status"
+        );
 
 
-const taskList=
-document.getElementById(
-"taskList"
-);
+    if(!desk || !status){
 
-const taskElement=
-document.createElement("div");
+        return;
 
-taskElement.className=
-"task";
-
-taskElement.innerHTML=
-"<b>"+
-escapeHTML(task)+
-"</b><br>"+
-"<span class='workingText'>"+
-"● Working — "+
-agent+
-" agent"+
-"</span>";
-
-taskList.prepend(
-taskElement
-);
+    }
 
 
-/* Demo completion */
-
-setTimeout(function(){
-
-desk.classList.remove(
-"working"
-);
-
-status.textContent=
-"● DONE";
-
-status.style.color=
-"#62b6ff";
+    desk.classList.add(
+        "working"
+    );
 
 
-taskElement.innerHTML=
-"<b>"+
-escapeHTML(task)+
-"</b><br>"+
-"<span class='done'>"+
-"● Completed"+
-"</span>";
+    status.textContent =
+        "● WORKING";
 
 
-const finished=
-"That task has been completed.";
+    status.style.color =
+        "#55e68a";
 
-addMessage(
-"STONIC 🔊: "+finished,
-"ai"
-);
 
-speak(finished);
+    const taskList =
+        document.getElementById(
+            "taskList"
+        );
 
-},5000);
+
+    const taskElement =
+        document.createElement(
+            "div"
+        );
+
+
+    taskElement.className =
+        "task";
+
+
+    taskElement.innerHTML =
+        "<b>" +
+        escapeHTML(task) +
+        "</b><br>" +
+        "<span class='workingText'>" +
+        "● Working — " +
+        agent +
+        " agent" +
+        "</span>";
+
+
+    taskList.prepend(
+        taskElement
+    );
+
+
+    setTimeout(function(){
+
+        desk.classList.remove(
+            "working"
+        );
+
+
+        status.textContent =
+            "● DONE";
+
+
+        status.style.color =
+            "#62b6ff";
+
+
+        taskElement.innerHTML =
+            "<b>" +
+            escapeHTML(task) +
+            "</b><br>" +
+            "<span class='done'>" +
+            "● Completed" +
+            "</span>";
+
+
+        const finished =
+            "That task has been completed.";
+
+
+        addMessage(
+            "STONIC 🔊: " + finished,
+            "ai"
+        );
+
+
+        speak(finished);
+
+    },5000);
 
 }
 
@@ -1341,86 +1563,37 @@ speak(finished);
 ========================= */
 
 function addMessage(
-text,
-type
+    text,
+    type
 ){
 
-const windowElement=
-document.getElementById(
-"chatWindow"
-);
-
-const message=
-document.createElement(
-"div"
-);
-
-message.className=
-"message "+type;
-
-message.textContent=
-text;
-
-windowElement.appendChild(
-message
-);
-
-windowElement.scrollTop=
-windowElement.scrollHeight;
-
-}
+    const windowElement =
+        document.getElementById(
+            "chatWindow"
+        );
 
 
-/* =========================
-   TEXT TO SPEECH
-========================= */
+    const message =
+        document.createElement(
+            "div"
+        );
 
-function speak(text){
 
-if(!("speechSynthesis" in window)){
+    message.className =
+        "message " + type;
 
-setVoiceStatus(
-"⚠️ Speech output isn't supported."
-);
 
-return;
+    message.textContent =
+        text;
 
-}
 
-window.speechSynthesis.cancel();
+    windowElement.appendChild(
+        message
+    );
 
-const voice=
-new SpeechSynthesisUtterance(
-text
-);
 
-voice.lang="en-US";
-
-voice.rate=0.95;
-
-voice.pitch=1;
-
-voice.volume=1;
-
-voice.onstart=function(){
-
-setVoiceStatus(
-"🔊 STONIC is speaking..."
-);
-
-};
-
-voice.onend=function(){
-
-setVoiceStatus(
-"Voice system ready"
-);
-
-};
-
-window.speechSynthesis.speak(
-voice
-);
+    windowElement.scrollTop =
+        windowElement.scrollHeight;
 
 }
 
@@ -1431,10 +1604,10 @@ voice
 
 function escapeHTML(text){
 
-return text
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;");
+    return text
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;");
 
 }
 
@@ -1445,46 +1618,58 @@ return text
 
 function toggleAgent(agent){
 
-const button=
-document.getElementById(
-agent+"Button"
-);
-
-const status=
-document.getElementById(
-agent+"Control"
-);
+    const button =
+        document.getElementById(
+            agent + "Button"
+        );
 
 
-if(
-button.textContent.trim()==="ON"
-){
+    const status =
+        document.getElementById(
+            agent + "Control"
+        );
 
-button.textContent="OFF";
 
-button.classList.add("off");
+    if(
+        button.textContent.trim() === "ON"
+    ){
 
-status.textContent=
-"● DISABLED";
+        button.textContent =
+            "OFF";
 
-status.style.color=
-"#ff6b6b";
 
-}
+        button.classList.add(
+            "off"
+        );
 
-else{
 
-button.textContent="ON";
+        status.textContent =
+            "● DISABLED";
 
-button.classList.remove("off");
 
-status.textContent=
-"● ACTIVE";
+        status.style.color =
+            "#ff6b6b";
 
-status.style.color=
-"#55e68a";
+    }
+    else{
 
-}
+        button.textContent =
+            "ON";
+
+
+        button.classList.remove(
+            "off"
+        );
+
+
+        status.textContent =
+            "● ACTIVE";
+
+
+        status.style.color =
+            "#55e68a";
+
+    }
 
 }
 
