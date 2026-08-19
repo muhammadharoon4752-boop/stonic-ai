@@ -16,309 +16,618 @@
 }
 
 body{
-    background:#070b13;
+    background:#05080d;
     color:white;
+    overflow-x:hidden;
+}
+
+button{
+    cursor:pointer;
 }
 
 header{
-    height:70px;
+    height:64px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 18px;
-    border-bottom:1px solid #273044;
+    padding:0 22px;
+    background:#071017;
+    border-bottom:1px solid #18313b;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 .logo{
-    font-size:25px;
+    font-size:22px;
     font-weight:bold;
+    letter-spacing:1px;
 }
 
 .online{
     color:#55e68a;
-    font-size:13px;
+    font-size:12px;
 }
 
-.page{
-    padding:20px 15px;
+
+/* =========================
+   MAIN LAYOUT
+========================= */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:250px minmax(450px,1fr) 310px;
+    gap:12px;
+    padding:12px;
+    max-width:1500px;
+    margin:auto;
 }
 
 .panel{
-    display:none;
-}
-
-.hero{
-    text-align:center;
-    padding:40px 10px 30px;
-}
-
-.brain{
-    font-size:70px;
-}
-
-.hero h1{
-    font-size:32px;
-    margin:10px 0;
-}
-
-.subtitle{
-    color:#9da8bb;
-    margin-bottom:25px;
-}
-
-.mainButton{
-    border:0;
-    background:white;
-    color:#080c14;
-    padding:15px 25px;
-    border-radius:30px;
-    font-weight:bold;
-    font-size:16px;
-    cursor:pointer;
-}
-
-.voiceStatus{
-    margin-top:15px;
-    color:#8f9bb0;
-    font-size:13px;
-    min-height:20px;
-}
-
-.menu{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-}
-
-.menu button{
-    min-height:120px;
-    background:#141d2e;
-    color:white;
-    border:1px solid #293650;
-    border-radius:20px;
-    font-size:34px;
-    cursor:pointer;
-}
-
-.menu span{
-    display:block;
-    font-size:15px;
-    margin-top:8px;
-}
-
-.back{
-    background:#151e30;
-    color:white;
-    border:1px solid #293650;
-    border-radius:12px;
-    padding:10px 16px;
-    margin-bottom:18px;
-    cursor:pointer;
-}
-
-.title{
-    font-size:29px;
-    margin-bottom:18px;
-}
-
-
-/* OFFICE */
-
-.office{
-    position:relative;
-    min-height:550px;
-    background:#101827;
-    border:2px solid #293750;
-    border-radius:22px;
+    background:#081017;
+    border:1px solid #18313b;
+    border-radius:14px;
     overflow:hidden;
 }
 
-.floor{
-    position:absolute;
-    inset:0;
-
-    background:
-    linear-gradient(#172238 1px,transparent 1px),
-    linear-gradient(90deg,#172238 1px,transparent 1px);
-
-    background-size:40px 40px;
+.panelTitle{
+    padding:13px;
+    border-bottom:1px solid #18313b;
+    color:#62e8ff;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:1px;
 }
 
-.desk{
-    position:absolute;
-    width:130px;
-    height:115px;
 
-    background:#182338;
-    border:2px solid #30405e;
-    border-radius:18px;
+/* =========================
+   LEFT SIDE
+========================= */
 
+.leftPanel{
     display:flex;
     flex-direction:column;
-    justify-content:center;
+    gap:12px;
+}
+
+.media{
+    height:145px;
+    padding:15px;
+    display:flex;
     align-items:center;
-
-    z-index:2;
-    transition:.3s;
+    justify-content:center;
+    color:#647985;
+    font-size:12px;
 }
 
-.desk.working{
-    border-color:#55e68a;
-    box-shadow:0 0 20px #55e68a;
+.feed{
+    height:270px;
+    padding:12px;
 }
 
-.character{
-    font-size:40px;
+.feedItem{
+    padding:10px;
+    margin-bottom:7px;
+    background:#0c1820;
+    border:1px solid #142c35;
+    border-radius:8px;
+    font-size:11px;
+    color:#a8b8bf;
 }
 
-.agentName{
-    font-size:13px;
+.feedItem b{
+    color:#55e68a;
+}
+
+.headlines{
+    padding:12px;
+}
+
+.headline{
+    padding:11px 4px;
+    border-bottom:1px solid #14242c;
+    font-size:11px;
+    line-height:1.4;
+    color:#b9c6cb;
+}
+
+.statusPanel{
+    padding:13px;
+}
+
+.statusLine{
+    display:flex;
+    justify-content:space-between;
+    padding:7px 0;
+    font-size:11px;
+    color:#9eabb1;
+}
+
+.statusGood{
+    color:#55e68a;
+}
+
+
+/* =========================
+   CENTER
+========================= */
+
+.center{
+    min-width:0;
+}
+
+.aiCore{
+    height:300px;
+    position:relative;
+    background:
+        radial-gradient(circle at center,#123743 0,#07151c 25%,#05090d 62%);
+    border:1px solid #19404b;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.aiCore:before{
+    content:"";
+    position:absolute;
+    width:210px;
+    height:210px;
+    border:1px solid #1edfff;
+    border-radius:50%;
+    opacity:.25;
+    animation:spin 12s linear infinite;
+}
+
+.aiCore:after{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    border:1px dashed #55e68a;
+    border-radius:50%;
+    opacity:.35;
+    animation:spinReverse 8s linear infinite;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes spinReverse{
+    from{transform:rotate(360deg);}
+    to{transform:rotate(0deg);}
+}
+
+.globe{
+    width:145px;
+    height:145px;
+    border-radius:50%;
+    position:relative;
+    z-index:3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:70px;
+    background:
+        radial-gradient(circle,#183f49,#07131a 70%);
+    box-shadow:
+        0 0 30px #0bbbd0,
+        inset 0 0 25px #0a6370;
+    animation:pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.05);
+    }
+}
+
+.coreText{
+    position:absolute;
+    bottom:28px;
+    text-align:center;
+    z-index:5;
+}
+
+.coreText h1{
+    font-size:24px;
+    letter-spacing:3px;
+}
+
+.coreText p{
+    color:#55e68a;
+    font-size:10px;
     margin-top:5px;
+}
+
+.startButton{
+    margin-top:10px;
+    padding:8px 22px;
+    border:1px solid #1de1ff;
+    border-radius:20px;
+    background:#071a21;
+    color:#5feaff;
     font-weight:bold;
 }
 
-.agentStatus{
-    font-size:10px;
-    margin-top:5px;
-    color:#8d9ab0;
+
+/* =========================
+   AGENT TOWN
+========================= */
+
+.officePanel{
+    margin-top:12px;
 }
 
-.mainDesk{
-    top:25px;
+.officeHeader{
+    padding:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #18313b;
+}
+
+.officeTitle{
+    color:#62e8ff;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.officeStats{
+    font-size:10px;
+    color:#71838a;
+}
+
+.office{
+    position:relative;
+    height:590px;
+    margin:12px;
+    border:2px solid #1b3943;
+    border-radius:12px;
+    overflow:hidden;
+
+    background:
+        linear-gradient(#10232b 1px,transparent 1px),
+        linear-gradient(90deg,#10232b 1px,transparent 1px),
+        #0a1218;
+
+    background-size:32px 32px;
+}
+
+
+/* Room walls */
+
+.room{
+    position:absolute;
+    border:2px solid #25434c;
+    background:rgba(9,18,24,.6);
+}
+
+.roomResearch{
+    left:15px;
+    top:15px;
+    width:44%;
+    height:235px;
+}
+
+.roomCoding{
+    right:15px;
+    top:15px;
+    width:44%;
+    height:235px;
+}
+
+.roomMain{
+    left:25%;
+    top:270px;
+    width:50%;
+    height:160px;
+}
+
+.roomDocs{
+    left:15px;
+    bottom:15px;
+    width:44%;
+    height:135px;
+}
+
+.roomPlanner{
+    right:15px;
+    bottom:15px;
+    width:44%;
+    height:135px;
+}
+
+
+/* Furniture */
+
+.desk{
+    position:absolute;
+    width:105px;
+    height:55px;
+    background:#172a31;
+    border:2px solid #31515b;
+    border-radius:8px;
+}
+
+.monitor{
+    position:absolute;
+    width:38px;
+    height:25px;
+    left:33px;
+    top:-18px;
+    background:#07151b;
+    border:2px solid #357582;
+    border-radius:4px;
+}
+
+.chair{
+    position:absolute;
+    width:32px;
+    height:20px;
+    left:36px;
+    bottom:-23px;
+    background:#243b42;
+    border-radius:5px;
+}
+
+
+/* =========================
+   CHARACTERS
+========================= */
+
+.agent{
+    position:absolute;
+    width:42px;
+    height:58px;
+    z-index:20;
+    transition:
+        left 1.2s linear,
+        top 1.2s linear;
+}
+
+.agentBody{
+    width:34px;
+    height:38px;
+    position:absolute;
+    bottom:0;
+    left:4px;
+    border-radius:12px 12px 7px 7px;
+    background:#243d45;
+    border:2px solid #5bd7e8;
+}
+
+.agentHead{
+    width:25px;
+    height:25px;
+    position:absolute;
+    top:0;
+    left:8px;
+    border-radius:50%;
+    background:#d49b73;
+    border:2px solid #8c634d;
+    z-index:2;
+}
+
+.agentHead:after{
+    content:"";
+    position:absolute;
+    width:7px;
+    height:4px;
+    background:#071017;
+    border-radius:50%;
+    left:7px;
+    top:9px;
+    box-shadow:8px 0 #071017;
+}
+
+.agentLabel{
+    position:absolute;
+    top:-20px;
     left:50%;
     transform:translateX(-50%);
+    white-space:nowrap;
+    font-size:8px;
+    color:#55e68a;
+    background:#061014;
+    border:1px solid #275943;
+    padding:3px 6px;
+    border-radius:5px;
+    opacity:0;
+    transition:.2s;
 }
 
-.researchDesk{
-    top:180px;
-    left:10px;
+.agent.working .agentLabel{
+    opacity:1;
 }
 
-.codingDesk{
-    top:180px;
-    right:10px;
+.agent.working .agentBody{
+    box-shadow:0 0 15px #55e68a;
+    border-color:#55e68a;
 }
 
-.documentDesk{
-    bottom:20px;
-    left:10px;
+.agent.coding .agentBody{
+    border-color:#65baff;
 }
 
-.plannerDesk{
-    bottom:20px;
-    right:10px;
+.agent.document .agentBody{
+    border-color:#c795ff;
+}
+
+.agent.planner .agentBody{
+    border-color:#ffd166;
 }
 
 
-/* CHAT */
+/* =========================
+   MAIN AI CHARACTER
+========================= */
 
-.chatWindow{
-    height:390px;
-    overflow-y:auto;
-    background:#101827;
-    border:1px solid #293750;
-    border-radius:18px;
+.mainAgent{
+    position:absolute;
+    width:65px;
+    height:80px;
+    left:50%;
+    top:315px;
+    transform:translateX(-50%);
+    z-index:25;
+}
+
+.mainHead{
+    width:40px;
+    height:40px;
+    position:absolute;
+    left:12px;
+    top:0;
+    border-radius:50%;
+    background:#d9a17a;
+    border:2px solid #61e5ff;
+}
+
+.mainBody{
+    width:55px;
+    height:42px;
+    position:absolute;
+    bottom:0;
+    left:5px;
+    border-radius:15px;
+    background:#17343c;
+    border:2px solid #61e5ff;
+    box-shadow:0 0 20px rgba(48,220,255,.35);
+}
+
+.mainLabel{
+    position:absolute;
+    top:-25px;
+    width:100%;
+    text-align:center;
+    color:#62e8ff;
+    font-size:9px;
+    font-weight:bold;
+}
+
+
+/* =========================
+   RIGHT PANEL
+========================= */
+
+.rightPanel{
+    display:flex;
+    flex-direction:column;
+}
+
+.voiceArea{
+    min-height:380px;
     padding:15px;
-    margin-bottom:12px;
+    overflow-y:auto;
 }
 
-.message{
-    max-width:90%;
+.voiceIcon{
+    text-align:center;
+    font-size:45px;
+    margin:25px 0 10px;
+}
+
+.voiceState{
+    text-align:center;
+    color:#62e8ff;
+    font-size:12px;
+    margin-bottom:18px;
+}
+
+.chatMessage{
     padding:12px;
-    border-radius:14px;
     margin-bottom:10px;
-    line-height:1.4;
+    border-radius:10px;
+    background:#101d25;
+    border:1px solid #1a343d;
+    font-size:12px;
+    line-height:1.5;
 }
 
-.ai{
-    background:#1a2639;
-}
-
-.user{
-    background:#273650;
-    margin-left:auto;
+.chatMessage.user{
+    background:#102738;
+    border-color:#23536a;
 }
 
 .chatInput{
+    padding:12px;
     display:flex;
-    gap:7px;
+    gap:6px;
+    border-top:1px solid #18313b;
 }
 
 .chatInput input{
-    min-width:0;
     flex:1;
-    padding:14px;
-    border-radius:14px;
-    border:1px solid #293750;
-    background:#111827;
+    min-width:0;
+    padding:12px;
+    border-radius:9px;
+    border:1px solid #26434d;
+    background:#071017;
     color:white;
     outline:none;
 }
 
 .chatInput button{
-    border:0;
-    border-radius:14px;
-    padding:0 13px;
-    background:white;
-    color:#080c14;
-    font-weight:bold;
-    cursor:pointer;
+    border:1px solid #32d9ee;
+    background:#0b252d;
+    color:#62e8ff;
+    border-radius:9px;
+    padding:0 12px;
 }
 
 
-/* TASKS */
+/* =========================
+   MOBILE
+========================= */
 
-.task{
-    background:#111a29;
-    border:1px solid #293750;
-    border-radius:15px;
-    padding:15px;
-    margin-bottom:10px;
+@media(max-width:1050px){
+
+    .dashboard{
+        grid-template-columns:1fr;
+    }
+
+    .leftPanel{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+    }
+
+    .rightPanel{
+        min-height:450px;
+    }
+
 }
 
-.done{
-    color:#55e68a;
-}
+@media(max-width:600px){
 
-.workingText{
-    color:#ffd166;
-}
+    .leftPanel{
+        display:block;
+    }
 
+    .office{
+        height:500px;
+    }
 
-/* CONTROL */
+    .roomResearch,
+    .roomCoding{
+        width:43%;
+    }
 
-.card{
-    background:#111a29;
-    border:1px solid #293750;
-    border-radius:17px;
-    padding:17px;
-    margin-bottom:12px;
-}
+    .roomMain{
+        width:55%;
+        left:22%;
+    }
 
-.agentRow{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
+    .desk{
+        transform:scale(.8);
+    }
 
-.status{
-    color:#55e68a;
-    font-size:11px;
-    margin-top:5px;
-}
-
-.toggle{
-    border:0;
-    border-radius:20px;
-    padding:9px 15px;
-    background:#55e68a;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.toggle.off{
-    background:#3b4559;
-    color:white;
 }
 
 </style>
@@ -330,73 +639,142 @@ header{
 <header>
 
 <div class="logo">
-⚡ STONIC
+⚡ STONIC AI
 </div>
 
 <div class="online">
-● ONLINE
+● SYSTEM ONLINE
 </div>
 
 </header>
 
 
-<!-- HOME -->
+<div class="dashboard">
 
-<div id="home" class="page">
 
-<div class="hero">
+<!-- =========================
+     LEFT
+========================= -->
 
-<div class="brain">
-🧠
+<div class="leftPanel">
+
+
+<div class="panel media">
+
+MEDIA LINK<br>
+<br>
+SYSTEM READY
+
 </div>
+
+
+<div class="panel feed">
+
+<div class="panelTitle">
+● SAT-LINK FEED
+</div>
+
+<div class="feedItem">
+<b>LIVE</b><br>
+STONIC satellite connection active.
+</div>
+
+<div class="feedItem">
+<b>NETWORK</b><br>
+All systems responding normally.
+</div>
+
+<div class="feedItem">
+<b>SECURITY</b><br>
+No critical events detected.
+</div>
+
+</div>
+
+
+<div class="panel headlines">
+
+<div class="panelTitle">
+● TODAY HEADLINES
+</div>
+
+<div class="headline">
+08:30 — AI systems continue improving across multiple fields.
+</div>
+
+<div class="headline">
+07:45 — Global technology networks remain active.
+</div>
+
+<div class="headline">
+06:20 — New research developments announced.
+</div>
+
+</div>
+
+
+<div class="panel statusPanel">
+
+<div class="panelTitle">
+● SYSTEM STATUS
+</div>
+
+<div class="statusLine">
+Power
+<span class="statusGood">98%</span>
+</div>
+
+<div class="statusLine">
+Network
+<span class="statusGood">Strong</span>
+</div>
+
+<div class="statusLine">
+Security
+<span class="statusGood">Secure</span>
+</div>
+
+<div class="statusLine">
+Agents
+<span id="agentCount" class="statusGood">
+5/5 Active
+</span>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     CENTER
+========================= -->
+
+<div class="center">
+
+
+<div class="aiCore">
+
+<div class="globe">
+🌍
+</div>
+
+<div class="coreText">
 
 <h1>
 STONIC AI
 </h1>
 
-<div class="subtitle">
-Your Personal AI Assistant
-</div>
+<p>
+● CORE ONLINE
+</p>
 
 <button
-class="mainButton"
+class="startButton"
 onclick="startVoice()">
 
-🎙️ Talk to STONIC
+🎙️ START AI
 
-</button>
-
-<div
-id="voiceStatus"
-class="voiceStatus">
-
-Voice system ready
-
-</div>
-
-</div>
-
-
-<div class="menu">
-
-<button onclick="showPage('office')">
-🏢
-<span>AI Office</span>
-</button>
-
-<button onclick="showPage('control')">
-🎛️
-<span>Control Panel</span>
-</button>
-
-<button onclick="showPage('chat')">
-💬
-<span>Chat</span>
-</button>
-
-<button onclick="showPage('tasks')">
-📋
-<span>Tasks</span>
 </button>
 
 </div>
@@ -404,139 +782,173 @@ Voice system ready
 </div>
 
 
-<!-- OFFICE -->
+<div class="panel officePanel">
 
-<div id="office" class="page panel">
+<div class="officeHeader">
 
-<button
-class="back"
-onclick="showPage('home')">
-
-← Home
-
-</button>
-
-<div class="title">
-🏢 STONIC AI Office
+<div class="officeTitle">
+🏢 AGENT TOWN
 </div>
 
+<div class="officeStats">
+5 AGENTS • LIVE OFFICE
+</div>
 
-<div class="office">
-
-<div class="floor"></div>
+</div>
 
 
 <div
-id="mainDesk"
-class="desk mainDesk">
+id="office"
+class="office">
 
-<div class="character">
-🧠
+
+<!-- ROOMS -->
+
+<div class="room roomResearch"></div>
+
+<div class="room roomCoding"></div>
+
+<div class="room roomMain"></div>
+
+<div class="room roomDocs"></div>
+
+<div class="room roomPlanner"></div>
+
+
+<!-- DESKS -->
+
+<div
+class="desk"
+style="left:90px;top:120px;">
+
+<div class="monitor"></div>
+<div class="chair"></div>
+
 </div>
 
-<div class="agentName">
+
+<div
+class="desk"
+style="right:90px;top:120px;">
+
+<div class="monitor"></div>
+<div class="chair"></div>
+
+</div>
+
+
+<div
+class="desk"
+style="left:50%;top:320px;transform:translateX(-50%);">
+
+<div class="monitor"></div>
+<div class="chair"></div>
+
+</div>
+
+
+<div
+class="desk"
+style="left:90px;bottom:45px;">
+
+<div class="monitor"></div>
+<div class="chair"></div>
+
+</div>
+
+
+<div
+class="desk"
+style="right:90px;bottom:45px;">
+
+<div class="monitor"></div>
+<div class="chair"></div>
+
+</div>
+
+
+<!-- MAIN AI -->
+
+<div class="mainAgent">
+
+<div class="mainLabel">
 MAIN AI
 </div>
 
-<div
-id="mainStatus"
-class="agentStatus">
+<div class="mainHead"></div>
 
-● IDLE
+<div class="mainBody"></div>
 
 </div>
 
-</div>
 
+<!-- RESEARCH AGENT -->
 
 <div
-id="researchDesk"
-class="desk researchDesk">
+id="researchAgent"
+class="agent">
 
-<div class="character">
-🔎
+<div class="agentLabel">
+RESEARCH • WORKING
 </div>
 
-<div class="agentName">
-RESEARCH
+<div class="agentHead"></div>
+
+<div class="agentBody"></div>
+
 </div>
+
+
+<!-- CODING AGENT -->
 
 <div
-id="researchStatus"
-class="agentStatus">
+id="codingAgent"
+class="agent coding">
 
-● IDLE
+<div class="agentLabel">
+CODING • WORKING
+</div>
+
+<div class="agentHead"></div>
+
+<div class="agentBody"></div>
 
 </div>
 
-</div>
 
+<!-- DOCUMENT AGENT -->
 
 <div
-id="codingDesk"
-class="desk codingDesk">
+id="documentAgent"
+class="agent document">
 
-<div class="character">
-👨‍💻
+<div class="agentLabel">
+DOCUMENTS • WORKING
 </div>
 
-<div class="agentName">
-CODING
+<div class="agentHead"></div>
+
+<div class="agentBody"></div>
+
 </div>
+
+
+<!-- PLANNER AGENT -->
 
 <div
-id="codingStatus"
-class="agentStatus">
+id="plannerAgent"
+class="agent planner">
 
-● IDLE
+<div class="agentLabel">
+PLANNER • WORKING
+</div>
+
+<div class="agentHead"></div>
+
+<div class="agentBody"></div>
 
 </div>
 
-</div>
-
-
-<div
-id="documentDesk"
-class="desk documentDesk">
-
-<div class="character">
-📄
-</div>
-
-<div class="agentName">
-DOCUMENTS
-</div>
-
-<div
-id="documentStatus"
-class="agentStatus">
-
-● IDLE
-
-</div>
-
-</div>
-
-
-<div
-id="plannerDesk"
-class="desk plannerDesk">
-
-<div class="character">
-📋
-</div>
-
-<div class="agentName">
-PLANNER
-</div>
-
-<div
-id="plannerStatus"
-class="agentStatus">
-
-● IDLE
-
-</div>
 
 </div>
 
@@ -545,32 +957,42 @@ class="agentStatus">
 </div>
 
 
-<!-- CHAT -->
+<!-- =========================
+     RIGHT
+========================= -->
 
-<div id="chat" class="page panel">
+<div class="panel rightPanel">
 
-<button
-class="back"
-onclick="showPage('home')">
-
-← Home
-
-</button>
-
-<div class="title">
-💬 STONIC Chat
+<div class="panelTitle">
+VOICE • AGENT • NOTES
 </div>
 
 
 <div
-id="chatWindow"
-class="chatWindow">
+id="voiceArea"
+class="voiceArea">
 
-<div class="message ai">
+<div class="voiceIcon">
+🎙️
+</div>
 
-<b>STONIC:</b><br>
+<div
+id="voiceState"
+class="voiceState">
 
-Hello! How can I help you?
+SYSTEM READY
+
+</div>
+
+
+<div class="chatMessage">
+<b>STONIC AI</b><br>
+Hello! I'm STONIC AI. How can I assist you?
+</div>
+
+
+<div
+id="chatWindow">
 
 </div>
 
@@ -582,200 +1004,22 @@ Hello! How can I help you?
 <input
 id="commandInput"
 type="text"
-placeholder="Talk to STONIC..."
+placeholder="Type command for STONIC..."
 onkeydown="handleEnter(event)"
 >
 
-<button
-onclick="sendCommand()">
-
+<button onclick="sendCommand()">
 SEND
-
 </button>
 
-<button
-onclick="startVoice()">
-
+<button onclick="startVoice()">
 🎙️
-
 </button>
 
 </div>
 
 </div>
 
-
-<!-- TASKS -->
-
-<div id="tasks" class="page panel">
-
-<button
-class="back"
-onclick="showPage('home')">
-
-← Home
-
-</button>
-
-<div class="title">
-📋 Task Manager
-</div>
-
-
-<div id="taskList">
-
-<div class="task">
-
-System Setup
-
-<br>
-
-<span class="done">
-● Completed
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- CONTROL -->
-
-<div id="control" class="page panel">
-
-<button
-class="back"
-onclick="showPage('home')">
-
-← Home
-
-</button>
-
-<div class="title">
-🎛️ Control Panel
-</div>
-
-
-<div class="card agentRow">
-
-<div>
-
-🔎 Research Agent
-
-<br>
-
-<span
-id="researchControl"
-class="status">
-
-● ACTIVE
-
-</span>
-
-</div>
-
-<button
-id="researchButton"
-class="toggle"
-onclick="toggleAgent('research')">
-
-ON
-
-</button>
-
-</div>
-
-
-<div class="card agentRow">
-
-<div>
-
-👨‍💻 Coding Agent
-
-<br>
-
-<span
-id="codingControl"
-class="status">
-
-● ACTIVE
-
-</span>
-
-</div>
-
-<button
-id="codingButton"
-class="toggle"
-onclick="toggleAgent('coding')">
-
-ON
-
-</button>
-
-</div>
-
-
-<div class="card agentRow">
-
-<div>
-
-📄 Document Agent
-
-<br>
-
-<span
-id="documentControl"
-class="status">
-
-● ACTIVE
-
-</span>
-
-</div>
-
-<button
-id="documentButton"
-class="toggle"
-onclick="toggleAgent('document')">
-
-ON
-
-</button>
-
-</div>
-
-
-<div class="card agentRow">
-
-<div>
-
-📋 Planner Agent
-
-<br>
-
-<span
-id="plannerControl"
-class="status">
-
-● ACTIVE
-
-</span>
-
-</div>
-
-<button
-id="plannerButton"
-class="toggle"
-onclick="toggleAgent('planner')">
-
-ON
-
-</button>
-
-</div>
 
 </div>
 
@@ -783,52 +1027,21 @@ ON
 <script>
 
 /* =========================
-   PAGE SYSTEM
-========================= */
-
-function showPage(page){
-
-    const pages = [
-        "home",
-        "office",
-        "chat",
-        "tasks",
-        "control"
-    ];
-
-    pages.forEach(function(name){
-
-        const element =
-            document.getElementById(name);
-
-        if(element){
-            element.style.display = "none";
-        }
-
-    });
-
-    const selected =
-        document.getElementById(page);
-
-    if(selected){
-        selected.style.display = "block";
-    }
-}
-
-
-/* =========================
-   CONTINUOUS VOICE SYSTEM
+   VOICE SYSTEM
 ========================= */
 
 let recognition = null;
 
 let listening = false;
+
 let speaking = false;
+
 let restarting = false;
 
+
 const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
 
 
 if(SpeechRecognition){
@@ -843,8 +1056,6 @@ if(SpeechRecognition){
     recognition.lang = "en-US";
 
 
-    /* MICROPHONE START */
-
     recognition.onstart = function(){
 
         restarting = false;
@@ -854,8 +1065,8 @@ if(SpeechRecognition){
             !speaking
         ){
 
-            setVoiceStatus(
-                "🎙️ Listening continuously..."
+            setVoiceState(
+                "🎙️ LISTENING..."
             );
 
         }
@@ -863,9 +1074,8 @@ if(SpeechRecognition){
     };
 
 
-    /* SPEECH RESULT */
-
-    recognition.onresult = function(event){
+    recognition.onresult =
+    function(event){
 
         if(!listening){
             return;
@@ -886,8 +1096,8 @@ if(SpeechRecognition){
             ){
 
                 text +=
-                    event.results[i][0]
-                    .transcript;
+                event.results[i][0]
+                .transcript;
 
             }
 
@@ -902,62 +1112,30 @@ if(SpeechRecognition){
         }
 
 
-        /*
-           User finished speaking.
-           Stop recognition before STONIC talks.
-        */
-
         speaking = true;
 
 
         try{
-
             recognition.stop();
-
         }
         catch(error){}
 
 
-        const input =
-            document.getElementById(
-                "commandInput"
-            );
-
-
-        if(input){
-
-            input.value = text;
-
-        }
-
-
         addMessage(
-            "You 🎙️: " + text,
+            "YOU 🎙️: " + text,
             "user"
         );
 
 
-        setTimeout(function(){
-
-            processCommand(text);
-
-        },200);
+        processCommand(text);
 
     };
 
 
-    /* ERRORS */
-
     recognition.onerror =
-        function(event){
+    function(event){
 
         restarting = false;
-
-
-        console.log(
-            "Voice error:",
-            event.error
-        );
 
 
         if(
@@ -969,31 +1147,8 @@ if(SpeechRecognition){
 
             speaking = false;
 
-            setVoiceStatus(
-                "⚠️ Microphone permission denied"
-            );
-
-            addMessage(
-                "STONIC: Please allow microphone permission in Chrome.",
-                "ai"
-            );
-
-            return;
-        }
-
-
-        /*
-           Silence is NOT a reason to turn
-           our voice system OFF.
-        */
-
-        if(
-            event.error ===
-            "no-speech"
-        ){
-
-            setVoiceStatus(
-                "🎙️ Still listening..."
+            setVoiceState(
+                "⚠️ MICROPHONE PERMISSION DENIED"
             );
 
             return;
@@ -1005,8 +1160,8 @@ if(SpeechRecognition){
             !speaking
         ){
 
-            setVoiceStatus(
-                "🎙️ Reconnecting..."
+            setVoiceState(
+                "🎙️ RECONNECTING..."
             );
 
         }
@@ -1014,27 +1169,23 @@ if(SpeechRecognition){
     };
 
 
-    /* SESSION ENDED */
-
-    recognition.onend = function(){
+    recognition.onend =
+    function(){
 
         restarting = false;
 
 
         /*
-           Chrome can end recognition after
-           silence. Restart it automatically.
+           Chrome may stop recognition
+           after silence.
+
+           We automatically restart it.
         */
 
         if(
             listening &&
             !speaking
         ){
-
-            setVoiceStatus(
-                "🎙️ Listening continuously..."
-            );
-
 
             restartRecognition();
 
@@ -1046,7 +1197,68 @@ if(SpeechRecognition){
 
 
 /* =========================
-   RESTART RECOGNITION
+   START / STOP VOICE
+========================= */
+
+function startVoice(){
+
+    if(!recognition){
+
+        setVoiceState(
+            "VOICE NOT SUPPORTED"
+        );
+
+        return;
+    }
+
+
+    if(listening){
+
+        listening = false;
+
+        speaking = false;
+
+
+        try{
+            recognition.stop();
+        }
+        catch(error){}
+
+
+        if(
+            "speechSynthesis" in window
+        ){
+
+            window.speechSynthesis.cancel();
+
+        }
+
+
+        setVoiceState(
+            "🎙️ MICROPHONE OFF"
+        );
+
+        return;
+    }
+
+
+    listening = true;
+
+    speaking = false;
+
+
+    setVoiceState(
+        "🎙️ STARTING..."
+    );
+
+
+    restartRecognition();
+
+}
+
+
+/* =========================
+   RESTART MICROPHONE
 ========================= */
 
 function restartRecognition(){
@@ -1080,88 +1292,14 @@ function restartRecognition(){
             !speaking
         ){
 
-            setTimeout(function(){
-
-                restartRecognition();
-
-            },500);
+            setTimeout(
+                restartRecognition,
+                500
+            );
 
         }
 
     }
-
-}
-
-
-/* =========================
-   MAIN VOICE BUTTON
-========================= */
-
-function startVoice(){
-
-    if(!recognition){
-
-        setVoiceStatus(
-            "⚠️ Voice recognition is not supported in this browser."
-        );
-
-        return;
-    }
-
-
-    /*
-       Press button again = OFF
-    */
-
-    if(listening){
-
-        listening = false;
-
-        speaking = false;
-
-
-        try{
-
-            recognition.stop();
-
-        }
-        catch(error){}
-
-
-        if(
-            "speechSynthesis" in window
-        ){
-
-            window.speechSynthesis.cancel();
-
-        }
-
-
-        setVoiceStatus(
-            "🎙️ Microphone OFF"
-        );
-
-        return;
-    }
-
-
-    /*
-       First press = ON
-    */
-
-    listening = true;
-
-    speaking = false;
-
-    showPage("chat");
-
-
-    setVoiceStatus(
-        "🎙️ Starting continuous listening..."
-    );
-
-
-    restartRecognition();
 
 }
 
@@ -1170,17 +1308,18 @@ function startVoice(){
    VOICE STATUS
 ========================= */
 
-function setVoiceStatus(text){
+function setVoiceState(text){
 
-    const status =
-        document.getElementById(
-            "voiceStatus"
-        );
+    const element =
+    document.getElementById(
+        "voiceState"
+    );
 
 
-    if(status){
+    if(element){
 
-        status.textContent = text;
+        element.textContent =
+        text;
 
     }
 
@@ -1188,33 +1327,278 @@ function setVoiceStatus(text){
 
 
 /* =========================
-   TEXT CHAT
+   COMMAND PROCESSING
+========================= */
+
+function processCommand(text){
+
+    const lower =
+    text.toLowerCase();
+
+
+    if(
+        lower.includes("hello") ||
+        lower === "hi" ||
+        lower === "hey"
+    ){
+
+        reply(
+            "Hello! I'm STONIC AI. I'm listening."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        lower.includes("how are you")
+    ){
+
+        reply(
+            "I'm online and ready to help."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        lower.includes("research") ||
+        lower.includes("search")
+    ){
+
+        reply(
+            "Research Agent has received the task."
+        );
+
+        startAgentTask(
+            "researchAgent"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        lower.includes("code") ||
+        lower.includes("coding")
+    ){
+
+        reply(
+            "Coding Agent has received the task."
+        );
+
+        startAgentTask(
+            "codingAgent"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        lower.includes("document") ||
+        lower.includes("report")
+    ){
+
+        reply(
+            "Document Agent has received the task."
+        );
+
+        startAgentTask(
+            "documentAgent"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        lower.includes("plan") ||
+        lower.includes("schedule")
+    ){
+
+        reply(
+            "Planner Agent has received the task."
+        );
+
+        startAgentTask(
+            "plannerAgent"
+        );
+
+        return;
+
+    }
+
+
+    reply(
+        "I heard you. Tell me what you would like STONIC to do."
+    );
+
+}
+
+
+/* =========================
+   TEXT TO SPEECH
+========================= */
+
+function reply(text){
+
+    addMessage(
+        "STONIC 🔊: " + text,
+        "ai"
+    );
+
+
+    speak(text);
+
+}
+
+
+function speak(text){
+
+    if(
+        !("speechSynthesis" in window)
+    ){
+
+        speaking = false;
+
+        restartRecognition();
+
+        return;
+
+    }
+
+
+    speaking = true;
+
+
+    if(recognition){
+
+        try{
+            recognition.stop();
+        }
+        catch(error){}
+
+    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const voice =
+    new SpeechSynthesisUtterance(
+        text
+    );
+
+
+    voice.lang = "en-US";
+
+    voice.rate = 0.88;
+
+    voice.pitch = 1.02;
+
+    voice.volume = 1;
+
+
+    voice.onstart =
+    function(){
+
+        setVoiceState(
+            "🔊 STONIC SPEAKING..."
+        );
+
+    };
+
+
+    voice.onend =
+    function(){
+
+        speaking = false;
+
+
+        if(listening){
+
+            setVoiceState(
+                "🎙️ LISTENING..."
+            );
+
+
+            setTimeout(
+                restartRecognition,
+                400
+            );
+
+        }
+        else{
+
+            setVoiceState(
+                "SYSTEM READY"
+            );
+
+        }
+
+    };
+
+
+    voice.onerror =
+    function(){
+
+        speaking = false;
+
+
+        if(listening){
+
+            setTimeout(
+                restartRecognition,
+                400
+            );
+
+        }
+
+    };
+
+
+    window.speechSynthesis.speak(
+        voice
+    );
+
+}
+
+
+/* =========================
+   CHAT
 ========================= */
 
 function sendCommand(){
 
     const input =
-        document.getElementById(
-            "commandInput"
-        );
+    document.getElementById(
+        "commandInput"
+    );
 
 
     const text =
-        input.value.trim();
+    input.value.trim();
 
 
-    if(text === ""){
+    if(!text){
         return;
     }
 
 
+    input.value = "";
+
+
     addMessage(
-        "You: " + text,
+        "YOU: " + text,
         "user"
     );
-
-
-    input.value = "";
 
 
     processCommand(text);
@@ -1235,520 +1619,29 @@ function handleEnter(event){
 }
 
 
-/* =========================
-   COMMAND ROUTER
-========================= */
-
-function processCommand(text){
-
-    const lower =
-        text.toLowerCase();
-
-
-    /* HOW ARE YOU */
-
-    if(
-        lower.includes("how are you") ||
-        lower.includes("how r u") ||
-        lower.includes("how are u") ||
-        lower.includes("kaise ho") ||
-        lower.includes("कैसे हो")
-    ){
-
-        reply(
-            "I'm doing great. I'm ready to help you."
-        );
-
-        return;
-    }
-
-
-    /* HELLO */
-
-    if(
-        lower === "hello" ||
-        lower === "hi" ||
-        lower === "hey" ||
-        lower.includes("hello stonic")
-    ){
-
-        reply(
-            "Hello! I'm STONIC. What would you like me to do?"
-        );
-
-        return;
-    }
-
-
-    /* THANKS */
-
-    if(
-        lower.includes("thank you") ||
-        lower.includes("thanks")
-    ){
-
-        reply(
-            "You're welcome!"
-        );
-
-        return;
-    }
-
-
-    /* WHO ARE YOU */
-
-    if(
-        lower.includes("who are you") ||
-        lower.includes("what are you")
-    ){
-
-        reply(
-            "I'm STONIC, your personal AI assistant."
-        );
-
-        return;
-    }
-
-
-    /* RESEARCH */
-
-    if(
-        lower.includes("search") ||
-        lower.includes("research") ||
-        lower.includes("find information") ||
-        lower.includes("look up")
-    ){
-
-        assignAgent(
-            "research",
-            text
-        );
-
-        return;
-    }
-
-
-    /* CODING */
-
-    if(
-        lower.includes("write code") ||
-        lower.includes("make code") ||
-        lower.includes("coding") ||
-        lower.includes("program") ||
-        lower.includes("debug code")
-    ){
-
-        assignAgent(
-            "coding",
-            text
-        );
-
-        return;
-    }
-
-
-    /* DOCUMENT */
-
-    if(
-        lower.includes("write a report") ||
-        lower.includes("make a document") ||
-        lower.includes("create a document")
-    ){
-
-        assignAgent(
-            "document",
-            text
-        );
-
-        return;
-    }
-
-
-    /* PLANNER */
-
-    if(
-        lower.includes("make a plan") ||
-        lower.includes("create a plan") ||
-        lower.includes("schedule")
-    ){
-
-        assignAgent(
-            "planner",
-            text
-        );
-
-        return;
-    }
-
-
-    /* GENERAL */
-
-    reply(
-        "I understand. Tell me specifically what you want me to do."
-    );
-
-}
-
-
-/* =========================
-   NORMAL REPLY
-========================= */
-
-function reply(text){
-
-    addMessage(
-        "STONIC 🔊: " + text,
-        "ai"
-    );
-
-
-    speak(text);
-
-}
-
-
-/* =========================
-   TEXT TO SPEECH
-========================= */
-
-function speak(text){
-
-    if(
-        !("speechSynthesis" in window)
-    ){
-
-        speaking = false;
-
-        setVoiceStatus(
-            "⚠️ Speech output isn't supported."
-        );
-
-        if(listening){
-
-            setTimeout(
-                restartRecognition,
-                300
-            );
-
-        }
-
-        return;
-    }
-
-
-    /*
-       STONIC is speaking.
-       Microphone stays stopped while
-       STONIC speaks.
-    */
-
-    speaking = true;
-
-
-    if(recognition){
-
-        try{
-
-            recognition.stop();
-
-        }
-        catch(error){}
-
-    }
-
-
-    window.speechSynthesis.cancel();
-
-
-    const voice =
-        new SpeechSynthesisUtterance(
-            text
-        );
-
-
-    voice.lang = "en-US";
-
-    voice.rate = 0.88;
-
-    voice.pitch = 1.02;
-
-    voice.volume = 1;
-
-
-    voice.onstart = function(){
-
-        setVoiceStatus(
-            "🔊 STONIC is speaking..."
-        );
-
-    };
-
-
-    voice.onerror = function(){
-
-        speaking = false;
-
-
-        if(listening){
-
-            setVoiceStatus(
-                "🎙️ Listening continuously..."
-            );
-
-
-            setTimeout(
-                restartRecognition,
-                300
-            );
-
-        }
-
-    };
-
-
-    voice.onend = function(){
-
-        speaking = false;
-
-
-        /*
-           STONIC finished speaking.
-           Turn microphone listening back ON.
-        */
-
-        if(listening){
-
-            setVoiceStatus(
-                "🎙️ Listening continuously..."
-            );
-
-
-            setTimeout(function(){
-
-                if(
-                    listening &&
-                    !speaking
-                ){
-
-                    restartRecognition();
-
-                }
-
-            },350);
-
-        }
-        else{
-
-            setVoiceStatus(
-                "Voice system ready"
-            );
-
-        }
-
-    };
-
-
-    window.speechSynthesis.speak(
-        voice
-    );
-
-}
-
-
-/* =========================
-   AGENT ASSIGNMENT
-========================= */
-
-function assignAgent(agent,task){
-
-    const names = {
-
-        research:
-        "Research Agent 🔎",
-
-        coding:
-        "Coding Agent 👨‍💻",
-
-        document:
-        "Document Agent 📄",
-
-        planner:
-        "Planner Agent 📋"
-
-    };
-
-
-    const response =
-        "Okay. I'm assigning this task to "
-        + names[agent] + ".";
-
-
-    addMessage(
-        "STONIC 🔊: " + response,
-        "ai"
-    );
-
-
-    speak(response);
-
-
-    showPage("office");
-
-
-    startAgent(
-        agent,
-        task
-    );
-
-}
-
-
-/* =========================
-   START AGENT
-========================= */
-
-function startAgent(agent,task){
-
-    const desk =
-        document.getElementById(
-            agent + "Desk"
-        );
-
-
-    const status =
-        document.getElementById(
-            agent + "Status"
-        );
-
-
-    if(
-        !desk ||
-        !status
-    ){
-
-        return;
-
-    }
-
-
-    desk.classList.add(
-        "working"
-    );
-
-
-    status.textContent =
-        "● WORKING";
-
-
-    status.style.color =
-        "#55e68a";
-
-
-    const taskList =
-        document.getElementById(
-            "taskList"
-        );
-
-
-    const taskElement =
-        document.createElement(
-            "div"
-        );
-
-
-    taskElement.className =
-        "task";
-
-
-    taskElement.innerHTML =
-        "<b>" +
-        escapeHTML(task) +
-        "</b><br>" +
-        "<span class='workingText'>" +
-        "● Working — " +
-        agent +
-        " agent" +
-        "</span>";
-
-
-    taskList.prepend(
-        taskElement
-    );
-
-
-    setTimeout(function(){
-
-        desk.classList.remove(
-            "working"
-        );
-
-
-        status.textContent =
-            "● DONE";
-
-
-        status.style.color =
-            "#62b6ff";
-
-
-        taskElement.innerHTML =
-            "<b>" +
-            escapeHTML(task) +
-            "</b><br>" +
-            "<span class='done'>" +
-            "● Completed" +
-            "</span>";
-
-
-        const finished =
-            "That task has been completed.";
-
-
-        addMessage(
-            "STONIC 🔊: " + finished,
-            "ai"
-        );
-
-
-        speak(finished);
-
-    },5000);
-
-}
-
-
-/* =========================
-   CHAT MESSAGE
-========================= */
-
 function addMessage(
     text,
     type
 ){
 
     const windowElement =
-        document.getElementById(
-            "chatWindow"
-        );
-
-
-    if(!windowElement){
-        return;
-    }
+    document.getElementById(
+        "chatWindow"
+    );
 
 
     const message =
-        document.createElement(
-            "div"
-        );
+    document.createElement(
+        "div"
+    );
 
 
     message.className =
-        "message " + type;
+    "chatMessage " + type;
 
 
     message.textContent =
-        text;
+    text;
 
 
     windowElement.appendChild(
@@ -1756,86 +1649,312 @@ function addMessage(
     );
 
 
-    windowElement.scrollTop =
-        windowElement.scrollHeight;
+    const voiceArea =
+    document.getElementById(
+        "voiceArea"
+    );
+
+
+    voiceArea.scrollTop =
+    voiceArea.scrollHeight;
 
 }
 
 
 /* =========================
-   SAFE TEXT
+   AGENT ANIMATION
 ========================= */
 
-function escapeHTML(text){
+const agentData = {
 
-    return text
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;");
+    researchAgent:{
+        x:95,
+        y:105,
+        deskX:100,
+        deskY:95
+    },
+
+    codingAgent:{
+        x:360,
+        y:105,
+        deskX:360,
+        deskY:95
+    },
+
+    documentAgent:{
+        x:100,
+        y:450,
+        deskX:100,
+        deskY:435
+    },
+
+    plannerAgent:{
+        x:360,
+        y:450,
+        deskX:360,
+        deskY:435
+    }
+
+};
+
+
+/* Random office positions */
+
+const walkingPositions = [
+
+    {x:45,y:275},
+    {x:150,y:275},
+    {x:280,y:275},
+    {x:450,y:275},
+    {x:220,y:220},
+    {x:320,y:220},
+    {x:80,y:350},
+    {x:450,y:350}
+
+];
+
+
+function moveAgentRandomly(id){
+
+    if(!listeningAgentIsWorking(id)){
+
+        const agent =
+        document.getElementById(id);
+
+
+        if(!agent){
+            return;
+        }
+
+
+        const position =
+        walkingPositions[
+            Math.floor(
+                Math.random() *
+                walkingPositions.length
+            )
+        ];
+
+
+        agent.style.left =
+        position.x + "px";
+
+
+        agent.style.top =
+        position.y + "px";
+
+    }
 
 }
 
 
 /* =========================
-   AGENT TOGGLE
+   CHECK WORK STATUS
 ========================= */
 
-function toggleAgent(agent){
+function listeningAgentIsWorking(id){
 
-    const button =
-        document.getElementById(
-            agent + "Button"
-        );
+    const agent =
+    document.getElementById(id);
 
 
-    const status =
-        document.getElementById(
-            agent + "Control"
-        );
-
-
-    if(
-        button.textContent.trim() === "ON"
-    ){
-
-        button.textContent =
-            "OFF";
-
-
-        button.classList.add(
-            "off"
-        );
-
-
-        status.textContent =
-            "● DISABLED";
-
-
-        status.style.color =
-            "#ff6b6b";
-
+    if(!agent){
+        return false;
     }
-    else{
-
-        button.textContent =
-            "ON";
 
 
-        button.classList.remove(
-            "off"
-        );
-
-
-        status.textContent =
-            "● ACTIVE";
-
-
-        status.style.color =
-            "#55e68a";
-
-    }
+    return agent.classList.contains(
+        "working"
+    );
 
 }
+
+
+/* =========================
+   RANDOM WALK LOOP
+========================= */
+
+function randomWalk(){
+
+    const agents = [
+        "researchAgent",
+        "codingAgent",
+        "documentAgent",
+        "plannerAgent"
+    ];
+
+
+    agents.forEach(function(id){
+
+        moveAgentRandomly(id);
+
+    });
+
+
+    setTimeout(
+        randomWalk,
+        3500
+    );
+
+}
+
+
+/* =========================
+   TASK ANIMATION
+========================= */
+
+function startAgentTask(id){
+
+    const agent =
+    document.getElementById(id);
+
+
+    if(!agent){
+        return;
+    }
+
+
+    const data =
+    agentData[id];
+
+
+    agent.classList.add(
+        "working"
+    );
+
+
+    /*
+       Move agent to desk.
+    */
+
+    agent.style.left =
+    data.deskX + "px";
+
+
+    agent.style.top =
+    data.deskY + "px";
+
+
+    /*
+       After reaching desk,
+       keep working for 5 seconds.
+    */
+
+    setTimeout(
+        function(){
+
+            if(
+                !agent.classList.contains(
+                    "working"
+                )
+            ){
+
+                return;
+
+            }
+
+
+            setTimeout(
+                function(){
+
+                    agent.classList.remove(
+                        "working"
+                    );
+
+
+                    /*
+                       Send completed agent
+                       back into the office.
+                    */
+
+                    const position =
+                    walkingPositions[
+                        Math.floor(
+                            Math.random() *
+                            walkingPositions.length
+                        )
+                    ];
+
+
+                    agent.style.left =
+                    position.x + "px";
+
+
+                    agent.style.top =
+                    position.y + "px";
+
+
+                },
+                5000
+            );
+
+        },
+        1200
+    );
+
+}
+
+
+/* =========================
+   START OFFICE LIFE
+========================= */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        /*
+           Put agents in their
+           starting locations.
+        */
+
+        document.getElementById(
+            "researchAgent"
+        ).style.left = "95px";
+
+        document.getElementById(
+            "researchAgent"
+        ).style.top = "105px";
+
+
+        document.getElementById(
+            "codingAgent"
+        ).style.left = "360px";
+
+        document.getElementById(
+            "codingAgent"
+        ).style.top = "105px";
+
+
+        document.getElementById(
+            "documentAgent"
+        ).style.left = "100px";
+
+        document.getElementById(
+            "documentAgent"
+        ).style.top = "450px";
+
+
+        document.getElementById(
+            "plannerAgent"
+        ).style.left = "360px";
+
+        document.getElementById(
+            "plannerAgent"
+        ).style.top = "450px";
+
+
+        /*
+           Start continuous office movement.
+        */
+
+        setTimeout(
+            randomWalk,
+            3000
+        );
+
+    }
+);
 
 </script>
 
