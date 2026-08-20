@@ -2,2316 +2,1474 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>STONIC AI — Agent Town</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>STONIC AI</title>
 
 <style>
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html,body{
-    width:100%;
-    min-height:100%;
-    background:#020609;
-    color:#fff;
-    font-family:Arial,sans-serif;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    overflow-x:hidden;
+  background:#020508;
+  color:#eaffff;
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
-/* =========================
-   TOP BAR
-========================= */
+button{
+  font:inherit;
+  cursor:pointer;
+}
 
-.topbar{
-    height:58px;
-    background:#050b10;
-    border-bottom:1px solid #17343d;
+:root{
+  --cyan:#00e5ff;
+  --green:#35ff88;
+  --blue:#39bfff;
+  --orange:#ff9d35;
+  --red:#ff4545;
+  --panel:#071016;
+  --panel2:#0a151c;
+  --line:#173944;
+  --text:#e8ffff;
+  --muted:#71868d;
+}
 
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+/* ================= HEADER ================= */
 
-    padding:0 18px;
+.header{
+  height:58px;
+  border-bottom:1px solid #142b34;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  background:#03080c;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .logo{
-    font-size:20px;
-    font-weight:bold;
-    letter-spacing:2px;
+  color:white;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:1px;
 }
 
-.logo span{
-    color:#55e8f5;
+.logoBolt{
+  color:var(--cyan);
+  font-size:28px;
 }
 
-.topStatus{
-    display:flex;
-    gap:15px;
-    align-items:center;
-    color:#72878f;
-    font-size:10px;
+.topButtons{
+  display:flex;
+  gap:10px;
+}
+
+.topBtn{
+  background:#071016;
+  color:#b8c9cd;
+  border:1px solid #17323b;
+  border-radius:8px;
+  padding:9px 14px;
+  font-size:11px;
 }
 
 .online{
-    color:#55e68a;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  border:1px solid #135c4c;
+  border-radius:22px;
+  padding:9px 22px;
+  color:var(--green);
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:1px;
+  box-shadow:0 0 18px #00ff8830 inset;
 }
 
+/* ================= MAIN ================= */
 
-/* =========================
-   MAIN
-========================= */
-
-.app{
-    max-width:1500px;
-    margin:auto;
-
-    display:grid;
-
-    grid-template-columns:
-        230px
-        minmax(500px,1fr)
-        330px;
-
-    gap:10px;
-
-    padding:10px;
+.dashboard{
+  display:grid;
+  grid-template-columns:285px minmax(450px,1fr) 285px;
+  gap:14px;
+  padding:16px;
+  max-width:1500px;
+  margin:auto;
 }
 
-
-/* =========================
-   PANELS
-========================= */
+.column{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
 
 .panel{
-    background:#071116;
-    border:1px solid #193640;
-    border-radius:10px;
-    overflow:hidden;
+  background:linear-gradient(145deg,#071117,#040a0e);
+  border:1px solid #17333c;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 0 25px #0008;
 }
 
 .panelTitle{
-    height:36px;
-
-    display:flex;
-    align-items:center;
-
-    padding:0 11px;
-
-    border-bottom:1px solid #17313a;
-
-    color:#5de7f5;
-
-    font-size:9px;
-    font-weight:bold;
-    letter-spacing:1.5px;
+  padding:13px 15px;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:1.2px;
+  border-bottom:1px solid #122a32;
+  color:#d8faff;
 }
 
-
-/* =========================
-   LEFT SIDEBAR
-========================= */
-
-.sidebar{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-
-.media{
-    height:150px;
-}
-
-.mediaScreen{
-    margin:10px;
-    height:92px;
-
-    border:1px solid #18343d;
-    border-radius:8px;
-
-    background:
-        radial-gradient(
-            circle,
-            #12343c,
-            #071116 65%
-        );
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#4f6870;
-    font-size:9px;
-}
-
-.feed{
-    min-height:190px;
-}
-
-.feedRow{
-    margin:8px;
-
-    padding:9px;
-
-    border:1px solid #142b32;
-    border-radius:6px;
-
-    background:#09171d;
-
-    font-size:9px;
-    color:#91a5ab;
-
-    line-height:1.5;
+.cyan{
+  color:var(--cyan);
 }
 
 .green{
-    color:#55e68a;
+  color:var(--green);
 }
 
-.blue{
-    color:#5de7f5;
+.orange{
+  color:var(--orange);
 }
 
-.stats{
-    padding-bottom:10px;
+/* ================= LEFT ================= */
+
+.media{
+  height:205px;
+  padding:15px;
 }
 
-.stat{
-    display:flex;
-    justify-content:space-between;
-
-    padding:8px 11px;
-
-    font-size:9px;
-    color:#7e939a;
+.mediaScreen{
+  height:135px;
+  border:1px solid #102d36;
+  border-radius:8px;
+  background:#010508;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#4c6268;
+  font-size:10px;
 }
 
-.stat strong{
-    color:#55e68a;
+.offline{
+  border:1px solid #16272c;
+  padding:8px 14px;
+  border-radius:15px;
 }
 
-
-/* =========================
-   CENTER
-========================= */
-
-.center{
-    min-width:0;
+.sat{
+  height:420px;
 }
 
-
-/* =========================
-   AI CORE
-========================= */
-
-.aiCore{
-    height:235px;
-
-    position:relative;
-
-    overflow:hidden;
-
-    border:1px solid #1c424b;
-    border-radius:12px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #12343d 0%,
-            #08161b 35%,
-            #03080b 75%
-        );
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.signal{
+  margin:12px;
+  padding:11px;
+  background:#052015;
+  border:1px solid #0c4c32;
+  border-radius:8px;
+  color:#7effb1;
+  font-size:10px;
 }
 
-.ring{
-    position:absolute;
-
-    border-radius:50%;
-
-    border:1px solid rgba(73,224,239,.35);
-
-    animation:spin 12s linear infinite;
+.map{
+  margin:12px;
+  height:235px;
+  border:1px solid #11462d;
+  border-radius:7px;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(#06351c 1px,transparent 1px),
+    linear-gradient(90deg,#06351c 1px,transparent 1px);
+  background-size:22px 22px;
 }
 
-.ring.one{
-    width:190px;
-    height:190px;
+.map::before{
+  content:"";
+  position:absolute;
+  inset:15%;
+  border:2px solid #168d51;
+  border-radius:50% 40% 45% 35%;
+  transform:rotate(-12deg);
+  box-shadow:
+    40px 35px 0 -12px #07140d,
+    80px 80px 0 -20px #07140d,
+    -20px 80px 0 -15px #07140d;
 }
 
-.ring.two{
-    width:145px;
-    height:145px;
-
-    border-style:dashed;
-
-    border-color:rgba(85,230,138,.4);
-
-    animation-duration:8s;
-    animation-direction:reverse;
+.dot{
+  position:absolute;
+  width:7px;
+  height:7px;
+  background:#ffbf38;
+  border-radius:50%;
+  box-shadow:0 0 10px #ffb300;
 }
 
-.ring.three{
-    width:220px;
-    height:80px;
+.dot.d1{left:27%;top:40%}
+.dot.d2{left:55%;top:35%}
+.dot.d3{left:68%;top:60%}
+.dot.d4{left:45%;top:70%}
+.dot.d5{left:78%;top:30%}
 
-    border-radius:50%;
-
-    transform:rotate(20deg);
-
-    animation-duration:10s;
+.headlines{
+  min-height:265px;
 }
 
-@keyframes spin{
-    from{
-        transform:rotate(0deg);
-    }
-
-    to{
-        transform:rotate(360deg);
-    }
+.news{
+  padding:12px 15px;
+  border-bottom:1px solid #10252c;
+  font-size:11px;
+  line-height:1.5;
 }
 
-.coreSphere{
-    width:105px;
-    height:105px;
-
-    border-radius:50%;
-
-    z-index:3;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:45px;
-
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            #65f0f3,
-            #15515d 35%,
-            #061014 72%
-        );
-
-    box-shadow:
-        0 0 25px rgba(54,225,240,.7),
-        inset 0 0 25px rgba(255,255,255,.15);
+.newsTime{
+  color:var(--cyan);
+  margin-right:8px;
 }
 
-.coreText{
-    position:absolute;
-
-    bottom:14px;
-
-    text-align:center;
-
-    z-index:5;
+.statusPanel{
+  min-height:210px;
+  padding-bottom:12px;
 }
 
-.coreText h1{
-    font-size:19px;
-    letter-spacing:5px;
+.statRow{
+  display:grid;
+  grid-template-columns:80px 1fr 50px;
+  align-items:center;
+  gap:8px;
+  padding:9px 14px;
+  font-size:10px;
+  color:#9db0b5;
 }
 
-.coreText p{
-    margin-top:4px;
-
-    color:#55e68a;
-
-    font-size:8px;
+.bar{
+  height:4px;
+  background:#112329;
+  border-radius:5px;
+  overflow:hidden;
 }
 
-
-/* =========================
-   AGENT TOWN
-========================= */
-
-.townPanel{
-    margin-top:10px;
+.bar i{
+  display:block;
+  height:100%;
+  background:var(--green);
+  border-radius:5px;
 }
 
-.townHeader{
-    height:43px;
+/* ================= CENTER ================= */
 
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 12px;
-
-    border-bottom:1px solid #19343d;
+.core{
+  min-height:350px;
+  position:relative;
+  background:
+    radial-gradient(circle at center,#06303a 0,#02080c 32%,#020508 70%);
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-.townTitle{
-    color:#5de7f5;
-
-    font-size:11px;
-    font-weight:bold;
-
-    letter-spacing:1px;
+.coreCircle{
+  width:230px;
+  height:230px;
+  border:1px solid #1bcde5;
+  border-radius:50%;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  box-shadow:
+    0 0 30px #00e5ff44,
+    inset 0 0 30px #00e5ff22;
+  animation:rotateCore 20s linear infinite;
 }
 
-.townTabs{
-    display:flex;
-    gap:5px;
+.coreCircle::before,
+.coreCircle::after{
+  content:"";
+  position:absolute;
+  border:1px dashed #1bcde566;
+  border-radius:50%;
 }
 
-.townTabs span{
-    padding:5px 8px;
-
-    border:1px solid #17323a;
-
-    border-radius:5px;
-
-    color:#657a81;
-
-    font-size:8px;
+.coreCircle::before{
+  inset:18px;
 }
 
-.townTabs .selected{
-    color:#fff;
-    border-color:#3d7984;
+.coreCircle::after{
+  inset:42px;
 }
 
-
-/* =========================
-   GAME WORLD
-========================= */
-
-.world{
-    position:relative;
-
-    height:590px;
-
-    margin:10px;
-
-    overflow:hidden;
-
-    border:2px solid #294950;
-    border-radius:8px;
-
-    background:#0a1418;
+.globe{
+  font-size:92px;
+  filter:
+    drop-shadow(0 0 12px #00e5ff)
+    drop-shadow(0 0 30px #00e5ff55);
 }
 
+@keyframes rotateCore{
+  from{transform:rotate(0)}
+  to{transform:rotate(360deg)}
+}
 
-/* floor */
+.coreLabel{
+  position:absolute;
+  bottom:22px;
+  left:50%;
+  transform:translateX(-50%);
+  border:1px solid var(--cyan);
+  color:var(--cyan);
+  padding:9px 30px;
+  border-radius:20px;
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+/* modules */
+
+.modules{
+  position:absolute;
+  inset:35px;
+  pointer-events:none;
+}
+
+.module{
+  position:absolute;
+  width:130px;
+  padding:11px;
+  border:1px solid #17424c;
+  border-radius:8px;
+  background:#061016dd;
+  font-size:10px;
+}
+
+.module b{
+  display:block;
+  margin-bottom:5px;
+}
+
+.m1{left:0;top:0;border-color:#00dfff}
+.m2{left:0;top:75px;border-color:#ff8435}
+.m3{left:0;top:150px;border-color:#35ff88}
+.m4{left:0;top:225px;border-color:#718c99}
+
+.m5{right:0;top:35px}
+.m6{right:0;top:105px}
+.m7{right:0;top:175px}
+.m8{right:0;top:245px}
+
+/* ================= AGENT TOWN ================= */
+
+.agentPanel{
+  padding-bottom:12px;
+}
+
+.agentHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  border-bottom:1px solid #17333c;
+}
+
+.agentTitle{
+  color:var(--cyan);
+  font-weight:bold;
+  letter-spacing:1px;
+  font-size:12px;
+}
+
+.filters{
+  display:flex;
+  gap:5px;
+}
+
+.filter{
+  background:#07151b;
+  color:#81969c;
+  border:1px solid #17333c;
+  border-radius:6px;
+  padding:6px 8px;
+  font-size:9px;
+}
+
+.filter.active{
+  color:white;
+  border-color:var(--cyan);
+}
+
+/* stats */
+
+.agentStats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  padding:12px;
+}
+
+.agentStat{
+  background:#071217;
+  border:1px solid #17333c;
+  border-radius:8px;
+  text-align:center;
+  padding:10px 5px;
+}
+
+.agentStat strong{
+  display:block;
+  font-size:18px;
+}
+
+.agentStat span{
+  font-size:8px;
+  color:#6e848a;
+}
+
+/* ================= 2D OFFICE ================= */
+
+.office{
+  position:relative;
+  margin:0 12px 12px;
+  height:510px;
+  overflow:hidden;
+  border:2px solid #253f48;
+  background:#151d22;
+  box-shadow:inset 0 0 50px #000;
+}
+
+/* floor tiles */
 
 .floor{
-    position:absolute;
-    inset:0;
-
-    background:
-        linear-gradient(
-            30deg,
-            rgba(65,100,105,.25) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            150deg,
-            rgba(65,100,105,.25) 1px,
-            transparent 1px
-        );
-
-    background-size:32px 18px;
-
-    transform:perspective(700px)
-              rotateX(48deg)
-              scale(1.4);
-
-    transform-origin:center;
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,#26343a 1px,transparent 1px),
+    linear-gradient(#26343a 1px,transparent 1px);
+  background-size:32px 32px;
 }
 
-
-/* room blocks */
+/* rooms */
 
 .room{
-    position:absolute;
-
-    background:#122328;
-
-    border:3px solid #35535a;
-
-    box-shadow:
-        inset 0 0 30px rgba(0,0,0,.35);
+  position:absolute;
+  background:#202a2f;
+  border:2px solid #3a4a50;
+  box-shadow:inset 0 0 20px #0008;
 }
 
-.roomLabel{
-    position:absolute;
-
-    top:8px;
-    left:10px;
-
-    font-size:8px;
-
-    color:#66838a;
-
-    letter-spacing:1px;
+.roomTop{
+  left:3%;
+  top:3%;
+  width:94%;
+  height:42%;
 }
 
-
-/* four rooms */
-
-.researchRoom{
-    left:18px;
-    top:18px;
-
-    width:44%;
-    height:225px;
+.roomBottom{
+  left:3%;
+  bottom:3%;
+  width:94%;
+  height:42%;
 }
 
-.codingRoom{
-    right:18px;
-    top:18px;
-
-    width:44%;
-    height:225px;
+.divider{
+  position:absolute;
+  left:50%;
+  top:3%;
+  bottom:3%;
+  width:3px;
+  background:#10181c;
 }
 
-.documentRoom{
-    left:18px;
-    bottom:18px;
+/* furniture */
 
-    width:44%;
-    height:225px;
-}
-
-.plannerRoom{
-    right:18px;
-    bottom:18px;
-
-    width:44%;
-    height:225px;
-}
-
-
-/* center hub */
-
-.centerHub{
-    position:absolute;
-
-    left:30%;
-    top:215px;
-
-    width:40%;
-    height:155px;
-
-    z-index:4;
-
-    background:#142b31;
-
-    border:3px solid #40646c;
-
-    box-shadow:
-        0 0 20px rgba(37,196,211,.12);
-}
-
-.centerHub .hubLight{
-    position:absolute;
-
-    left:50%;
-    top:50%;
-
-    width:55px;
-    height:55px;
-
-    transform:translate(-50%,-50%);
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #6cf2f6,
-            #12616b 40%,
-            #071116 70%
-        );
-
-    box-shadow:
-        0 0 25px #28d7e7;
-}
-
-
-/* =========================
-   FURNITURE
-========================= */
-
-.desk{
-    position:absolute;
-
-    width:78px;
-    height:42px;
-
-    background:#1a3035;
-
-    border:2px solid #46636a;
-
-    border-radius:5px;
-
-    z-index:8;
+.desk2d{
+  position:absolute;
+  width:95px;
+  height:60px;
+  background:#303b40;
+  border:2px solid #4b5b61;
+  border-radius:6px;
+  box-shadow:0 5px 0 #111;
 }
 
 .monitor{
-    position:absolute;
-
-    width:27px;
-    height:18px;
-
-    left:25px;
-    top:-16px;
-
-    background:#071014;
-
-    border:2px solid #52777e;
-
-    border-radius:3px;
-
-    box-shadow:
-        0 0 7px rgba(80,220,235,.25);
+  width:45px;
+  height:27px;
+  margin:auto;
+  margin-top:-8px;
+  background:#062d35;
+  border:2px solid #00b8cc;
+  box-shadow:0 0 9px #00e5ff55;
 }
 
-.monitor:after{
-    content:"";
-
-    position:absolute;
-
-    width:7px;
-    height:4px;
-
-    background:#536c71;
-
-    left:8px;
-
-    bottom:-6px;
+.desk2d::after{
+  content:"";
+  position:absolute;
+  width:8px;
+  height:8px;
+  background:#48ff9a;
+  border-radius:50%;
+  right:8px;
+  bottom:7px;
 }
 
-.keyboard{
-    position:absolute;
-
-    width:27px;
-    height:5px;
-
-    left:25px;
-    bottom:4px;
-
-    background:#53676c;
-
-    border-radius:2px;
-}
-
-.deskA{
-    left:65px;
-    top:110px;
-}
-
-.deskB{
-    right:65px;
-    top:110px;
-}
-
-.deskC{
-    left:65px;
-    bottom:65px;
-}
-
-.deskD{
-    right:65px;
-    bottom:65px;
-}
-
-.deskE{
-    left:50%;
-    top:55px;
-
-    transform:translateX(-50%);
-}
-
+.d1{left:8%;top:17%}
+.d2{left:31%;top:17%}
+.d3{right:8%;top:17%}
+.d4{left:18%;bottom:15%}
+.d5{right:18%;bottom:15%}
 
 /* plants */
 
 .plant{
-    position:absolute;
-
-    width:25px;
-    height:25px;
-
-    z-index:7;
-
-    font-size:20px;
+  position:absolute;
+  font-size:25px;
+  filter:drop-shadow(0 0 5px #35ff8866);
 }
 
-.plant1{
-    left:18px;
-    top:70px;
-}
-
-.plant2{
-    right:20px;
-    top:70px;
-}
-
-.plant3{
-    left:20px;
-    bottom:40px;
-}
-
-.plant4{
-    right:20px;
-    bottom:40px;
-}
-
-
-/* sofa */
-
-.sofa{
-    position:absolute;
-
-    left:50%;
-    bottom:16px;
-
-    transform:translateX(-50%);
-
-    width:105px;
-    height:34px;
-
-    border-radius:8px;
-
-    background:#263f45;
-
-    border:2px solid #4d676d;
-
-    z-index:6;
-}
-
-
-/* =========================
-   AGENTS
-========================= */
+/* agents */
 
 .agent{
-    position:absolute;
-
-    width:38px;
-    height:54px;
-
-    z-index:30;
-
-    transition:
-        left 1.4s linear,
-        top 1.4s linear;
+  position:absolute;
+  z-index:10;
+  width:35px;
+  height:48px;
+  transition:all 2s ease;
 }
 
-
-/* shadow */
-
-.agent:after{
-    content:"";
-
-    position:absolute;
-
-    width:32px;
-    height:8px;
-
-    left:3px;
-    bottom:-2px;
-
-    border-radius:50%;
-
-    background:rgba(0,0,0,.45);
+.head{
+  position:absolute;
+  left:7px;
+  top:0;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#e4a875;
+  border:2px solid #101619;
 }
 
-
-/* head */
-
-.agentHead{
-    position:absolute;
-
-    left:8px;
-    top:0;
-
-    width:22px;
-    height:22px;
-
-    border-radius:50%;
-
-    background:#d49a70;
-
-    border:2px solid #855e4c;
-
-    z-index:3;
+.body{
+  position:absolute;
+  left:3px;
+  top:20px;
+  width:30px;
+  height:27px;
+  border-radius:7px 7px 4px 4px;
+  background:#2586a0;
+  border:2px solid #111b20;
 }
 
+.agent.greenA .body{background:#20834d}
+.agent.orangeA .body{background:#a35b2b}
+.agent.blueA .body{background:#305ca0}
+.agent.purpleA .body{background:#65409a}
 
-/* hair */
-
-.agentHead:before{
-    content:"";
-
-    position:absolute;
-
-    width:22px;
-    height:9px;
-
-    left:-2px;
-    top:-3px;
-
-    border-radius:10px 10px 3px 3px;
-
-    background:#27252a;
+.agentName2{
+  position:absolute;
+  top:-18px;
+  left:-20px;
+  white-space:nowrap;
+  background:#06130c;
+  border:1px solid #35ff88;
+  color:#63ff9f;
+  padding:3px 6px;
+  font-size:7px;
+  border-radius:4px;
 }
 
-
-/* eyes */
-
-.agentHead:after{
-    content:"";
-
-    position:absolute;
-
-    width:4px;
-    height:4px;
-
-    left:5px;
-    top:9px;
-
-    border-radius:50%;
-
-    background:#081015;
-
-    box-shadow:
-        8px 0 #081015;
+.agent.working .body{
+  box-shadow:0 0 14px #35ff88;
 }
 
-
-/* body */
-
-.agentBody{
-    position:absolute;
-
-    left:3px;
-    bottom:0;
-
-    width:32px;
-    height:33px;
-
-    border-radius:9px 9px 5px 5px;
-
-    background:#27505a;
-
-    border:2px solid #56dfea;
+.agent.working::after{
+  content:"WORKING";
+  position:absolute;
+  top:50px;
+  left:-7px;
+  font-size:6px;
+  color:#35ff88;
 }
 
+.a1{left:25%;top:24%}
+.a2{right:24%;top:24%}
+.a3{left:24%;bottom:19%}
+.a4{right:23%;bottom:19%}
+.a5{left:47%;top:45%}
 
-/* colors */
+/* ================= RIGHT VOICE ================= */
 
-.agent.coding .agentBody{
-    background:#243e67;
-    border-color:#65aef7;
+.voicePanel{
+  min-height:850px;
+  display:flex;
+  flex-direction:column;
 }
 
-.agent.document .agentBody{
-    background:#46305f;
-    border-color:#c18cff;
+.voiceTabs{
+  display:flex;
+  gap:20px;
+  padding:14px;
+  border-bottom:1px solid #17333c;
 }
 
-.agent.planner .agentBody{
-    background:#665026;
-    border-color:#ffd166;
+.voiceTab{
+  font-size:10px;
+  color:#73888e;
 }
 
-
-/* name */
-
-.agentName{
-    position:absolute;
-
-    top:-18px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    white-space:nowrap;
-
-    padding:3px 5px;
-
-    border-radius:4px;
-
-    background:#050d11;
-
-    border:1px solid #21434b;
-
-    color:#65eaf5;
-
-    font-size:7px;
-
-    z-index:10;
+.voiceTab.active{
+  color:white;
+  border-bottom:2px solid var(--cyan);
+  padding-bottom:8px;
 }
 
-
-/* walking animation */
-
-.agent.walking .agentBody{
-    animation:
-        walkBody .35s infinite alternate;
+.voiceCenter{
+  text-align:center;
+  padding:25px 15px 15px;
 }
 
-@keyframes walkBody{
-    from{
-        transform:translateY(0);
-    }
-
-    to{
-        transform:translateY(-3px);
-    }
+.voiceIcon{
+  font-size:34px;
+  color:var(--cyan);
 }
 
-
-/* working */
-
-.agent.working .agentBody{
-    border-color:#55e68a;
-
-    box-shadow:
-        0 0 16px rgba(85,230,138,.75);
+.voiceCenter h2{
+  margin:10px 0;
+  font-size:17px;
 }
 
-.agent.working .agentName{
-    color:#55e68a;
+.wave{
+  height:45px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:3px;
 }
 
-
-/* status bubble */
-
-.statusBubble{
-    position:absolute;
-
-    top:-34px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    padding:3px 5px;
-
-    border-radius:5px;
-
-    background:#061014;
-
-    border:1px solid #55e68a;
-
-    color:#55e68a;
-
-    font-size:6px;
-
-    display:none;
+.wave i{
+  width:3px;
+  height:10px;
+  background:var(--cyan);
+  animation:wave 1s infinite alternate;
 }
 
-.agent.working .statusBubble{
-    display:block;
-}
+.wave i:nth-child(2){animation-delay:.1s}
+.wave i:nth-child(3){animation-delay:.2s}
+.wave i:nth-child(4){animation-delay:.3s}
+.wave i:nth-child(5){animation-delay:.4s}
+.wave i:nth-child(6){animation-delay:.5s}
+.wave i:nth-child(7){animation-delay:.6s}
 
-
-/* =========================
-   RIGHT CHAT
-========================= */
-
-.right{
-    min-height:845px;
-
-    display:flex;
-    flex-direction:column;
+@keyframes wave{
+  to{height:35px}
 }
 
 .chat{
-    flex:1;
-
-    overflow:auto;
-
-    padding:10px;
+  flex:1;
+  padding:12px;
+  overflow:auto;
 }
 
-.aiMessage,
-.userMessage{
-    margin-bottom:9px;
-
-    padding:10px;
-
-    border-radius:8px;
-
-    border:1px solid #19353d;
-
-    background:#0b191f;
-
-    font-size:10px;
-
-    line-height:1.5;
+.bubble{
+  max-width:90%;
+  margin-bottom:12px;
+  padding:12px;
+  border:1px solid #19323a;
+  border-radius:10px;
+  background:#081319;
+  font-size:11px;
+  line-height:1.5;
 }
 
-.userMessage{
-    background:#102630;
+.bubble.user{
+  margin-left:auto;
+  background:#082035;
+  border-color:#164b70;
 }
 
-.welcome{
-    text-align:center;
-
-    padding:35px 10px;
-
-    color:#627981;
+.bubble strong{
+  color:var(--cyan);
 }
 
-.robot{
-    font-size:42px;
-
-    margin-bottom:8px;
+.thinking{
+  padding:10px 14px;
+  color:#7c9298;
+  font-size:10px;
 }
 
-.voiceState{
-    color:#5de7f5;
-
-    font-size:9px;
+.inputArea{
+  display:flex;
+  gap:6px;
+  padding:12px;
+  border-top:1px solid #17333c;
 }
 
-
-/* input */
-
-.input{
-    display:flex;
-
-    gap:5px;
-
-    padding:9px;
-
-    border-top:1px solid #19343d;
+.inputArea input{
+  flex:1;
+  min-width:0;
+  background:#050b0f;
+  border:1px solid #1b363e;
+  border-radius:8px;
+  padding:12px;
+  color:white;
+  outline:none;
 }
 
-.input input{
-    flex:1;
-
-    min-width:0;
-
-    padding:11px;
-
-    background:#050d11;
-
-    border:1px solid #24434b;
-
-    border-radius:7px;
-
-    outline:none;
-
-    color:#fff;
-
-    font-size:10px;
+.mic{
+  width:42px;
+  border:1px solid #1a4c58;
+  background:#07171d;
+  color:var(--cyan);
+  border-radius:8px;
 }
 
-.input button{
-    border:1px solid #37d8e9;
+/* ================= FOOTER ================= */
 
-    background:#09242c;
-
-    color:#65eaf5;
-
-    border-radius:7px;
-
-    padding:0 9px;
+.bottomStats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  margin:0 12px 12px;
+  border:1px solid #17333c;
+  border-radius:9px;
+  overflow:hidden;
 }
 
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:1150px){
-
-    .app{
-        grid-template-columns:190px 1fr;
-    }
-
-    .right{
-        grid-column:1/-1;
-        min-height:450px;
-    }
+.bottomStat{
+  padding:14px;
+  border-right:1px solid #17333c;
 }
 
-@media(max-width:750px){
-
-    .app{
-        display:block;
-    }
-
-    .sidebar{
-        margin-bottom:10px;
-    }
-
-    .world{
-        height:520px;
-    }
-
-    .right{
-        margin-top:10px;
-    }
+.bottomStat:last-child{
+  border:0;
 }
 
+.bottomStat span{
+  display:block;
+  color:#71858b;
+  font-size:9px;
+}
+
+.bottomStat strong{
+  display:block;
+  margin-top:5px;
+  font-size:18px;
+}
+
+.footer{
+  height:42px;
+  border-top:1px solid #12252c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#4c6066;
+  font-size:9px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1050px){
+  .dashboard{
+    grid-template-columns:1fr;
+  }
+
+  .online{
+    display:none;
+  }
+
+  .voicePanel{
+    min-height:600px;
+  }
+
+  .leftColumn{
+    order:2;
+  }
+
+  .centerColumn{
+    order:1;
+  }
+
+  .rightColumn{
+    order:3;
+  }
+}
+
+@media(max-width:600px){
+  .header{
+    padding:0 10px;
+  }
+
+  .topButtons{
+    display:none;
+  }
+
+  .dashboard{
+    padding:8px;
+  }
+
+  .agentStats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .bottomStats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .bottomStat:nth-child(2){
+    border-right:0;
+  }
+
+  .office{
+    height:430px;
+  }
+}
 </style>
 </head>
 
-
 <body>
 
+<!-- HEADER -->
+<header class="header">
 
-<!-- =========================
-     TOP BAR
-========================= -->
+  <div class="brand">
+    <span class="logoBolt">ϟ</span>
+    <span class="logo">STONIC AI</span>
+  </div>
 
-<header class="topbar">
+  <div class="topButtons">
+    <button class="topBtn">▶ Demo Video</button>
+    <button class="topBtn">▣ Feedback</button>
+  </div>
 
-    <div class="logo">
-        ⚡ STONIC <span>AI</span>
-    </div>
+  <div class="online">● SYSTEM ONLINE</div>
 
-    <div class="topStatus">
-        <span>AI OFFICE</span>
-        <span class="online">● ONLINE</span>
-    </div>
+  <div class="topButtons">
+    <button class="topBtn">☼</button>
+    <button class="topBtn">🔔</button>
+    <button class="topBtn">👤 STONIC</button>
+  </div>
 
 </header>
 
 
-<main class="app">
+<div class="dashboard">
 
+<!-- ================= LEFT COLUMN ================= -->
 
-<!-- =========================
-     LEFT
-========================= -->
+<div class="column leftColumn">
 
-<aside class="sidebar">
+  <div class="panel media">
+    <div class="panelTitle"><span class="cyan">◉</span> MEDIA LINK</div>
 
-
-    <div class="panel media">
-
-        <div class="panelTitle">
-            ▣ MEDIA LINK
-        </div>
-
-        <div class="mediaScreen">
-            SYSTEM READY
-        </div>
-
+    <div class="mediaScreen">
+      <div class="offline">› SYSTEM OFFLINE</div>
     </div>
+  </div>
 
 
-    <div class="panel feed">
-
-        <div class="panelTitle">
-            ● SAT-LINK FEED
-        </div>
-
-        <div class="feedRow">
-            <span class="green">● LIVE</span><br>
-            STONIC network is online.
-        </div>
-
-        <div class="feedRow">
-            <span class="blue">● AGENTS</span><br>
-            Four AI agents connected.
-        </div>
-
-        <div class="feedRow">
-            <span class="green">● SYSTEM</span><br>
-            Office simulation active.
-        </div>
-
-    </div>
-
-
-    <div class="panel">
-
-        <div class="panelTitle">
-            ● MEMORY
-        </div>
-
-        <div class="feedRow">
-            STONIC remembers the current
-            workspace session.
-        </div>
-
-    </div>
-
-
-    <div class="panel">
-
-        <div class="panelTitle">
-            ● SKILLS
-        </div>
-
-        <div class="feedRow">
-            🔎 Research
-        </div>
-
-        <div class="feedRow">
-            💻 Coding
-        </div>
-
-        <div class="feedRow">
-            📄 Documents
-        </div>
-
-        <div class="feedRow">
-            📋 Planning
-        </div>
-
-    </div>
-
-
-    <div class="panel stats">
-
-        <div class="panelTitle">
-            ● SYSTEM
-        </div>
-
-        <div class="stat">
-            Power
-            <strong>98%</strong>
-        </div>
-
-        <div class="stat">
-            Network
-            <strong>ONLINE</strong>
-        </div>
-
-        <div class="stat">
-            Agents
-            <strong>4</strong>
-        </div>
-
-        <div class="stat">
-            World
-            <strong>ACTIVE</strong>
-        </div>
-
-    </div>
-
-
-</aside>
-
-
-
-<!-- =========================
-     CENTER
-========================= -->
-
-<section class="center">
-
-
-    <!-- AI CORE -->
-
-    <div class="aiCore">
-
-        <div class="ring one"></div>
-        <div class="ring two"></div>
-        <div class="ring three"></div>
-
-        <div class="coreSphere">
-            🧠
-        </div>
-
-        <div class="coreText">
-
-            <h1>STONIC</h1>
-
-            <p>
-                ● MAIN AI CORE ONLINE
-            </p>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- AGENT TOWN -->
-
-    <div class="panel townPanel">
-
-        <div class="townHeader">
-
-            <div class="townTitle">
-                ● AGENT TOWN
-            </div>
-
-            <div class="townTabs">
-
-                <span class="selected">
-                    AGENTS
-                </span>
-
-                <span>
-                    VISUAL HUB
-                </span>
-
-                <span>
-                    GESTURE
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div id="world" class="world">
-
-
-            <div class="floor"></div>
-
-
-            <!-- ROOMS -->
-
-            <div class="room researchRoom">
-
-                <div class="roomLabel">
-                    RESEARCH LAB
-                </div>
-
-            </div>
-
-
-            <div class="room codingRoom">
-
-                <div class="roomLabel">
-                    CODING LAB
-                </div>
-
-            </div>
-
-
-            <div class="room documentRoom">
-
-                <div class="roomLabel">
-                    DOCUMENT CENTER
-                </div>
-
-            </div>
-
-
-            <div class="room plannerRoom">
-
-                <div class="roomLabel">
-                    PLANNING ROOM
-                </div>
-
-            </div>
-
-
-            <!-- CENTER HUB -->
-
-            <div class="centerHub">
-
-                <div class="roomLabel">
-                    MAIN AI HUB
-                </div>
-
-                <div class="hubLight"></div>
-
-            </div>
-
-
-            <!-- DESKS -->
-
-            <div class="desk deskA">
-                <div class="monitor"></div>
-                <div class="keyboard"></div>
-            </div>
-
-            <div class="desk deskB">
-                <div class="monitor"></div>
-                <div class="keyboard"></div>
-            </div>
-
-            <div class="desk deskC">
-                <div class="monitor"></div>
-                <div class="keyboard"></div>
-            </div>
-
-            <div class="desk deskD">
-                <div class="monitor"></div>
-                <div class="keyboard"></div>
-            </div>
-
-            <div class="desk deskE">
-                <div class="monitor"></div>
-                <div class="keyboard"></div>
-            </div>
-
-
-            <!-- PLANTS -->
-
-            <div class="plant plant1">🌱</div>
-            <div class="plant plant2">🪴</div>
-            <div class="plant plant3">🌿</div>
-            <div class="plant plant4">🌱</div>
-
-
-            <!-- SOFA -->
-
-            <div class="sofa"></div>
-
-
-            <!-- =====================
-                 AGENTS
-            ====================== -->
-
-
-            <div
-                id="research"
-                class="agent walking"
-                style="left:80px;top:145px"
-            >
-
-                <div class="agentName">
-                    RESEARCH
-                </div>
-
-                <div class="statusBubble">
-                    WORKING
-                </div>
-
-                <div class="agentHead"></div>
-                <div class="agentBody"></div>
-
-            </div>
-
-
-
-            <div
-                id="coding"
-                class="agent coding walking"
-                style="left:440px;top:145px"
-            >
-
-                <div class="agentName">
-                    CODING
-                </div>
-
-                <div class="statusBubble">
-                    WORKING
-                </div>
-
-                <div class="agentHead"></div>
-                <div class="agentBody"></div>
-
-            </div>
-
-
-
-            <div
-                id="document"
-                class="agent document walking"
-                style="left:80px;top:445px"
-            >
-
-                <div class="agentName">
-                    DOCUMENTS
-                </div>
-
-                <div class="statusBubble">
-                    WORKING
-                </div>
-
-                <div class="agentHead"></div>
-                <div class="agentBody"></div>
-
-            </div>
-
-
-
-            <div
-                id="planner"
-                class="agent planner walking"
-                style="left:440px;top:445px"
-            >
-
-                <div class="agentName">
-                    PLANNER
-                </div>
-
-                <div class="statusBubble">
-                    WORKING
-                </div>
-
-                <div class="agentHead"></div>
-                <div class="agentBody"></div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     RIGHT
-========================= -->
-
-<section class="panel right">
-
+  <div class="panel sat">
 
     <div class="panelTitle">
-        VOICE • AGENT • NOTES
+      <span class="cyan">◉</span> SAT-LINK FEED
+    </div>
+
+    <div class="signal">
+      🟢 It's a beautiful day. STONIC AI is here to help you.
+    </div>
+
+    <div class="map">
+      <div class="dot d1"></div>
+      <div class="dot d2"></div>
+      <div class="dot d3"></div>
+      <div class="dot d4"></div>
+      <div class="dot d5"></div>
+    </div>
+
+  </div>
+
+
+  <div class="panel headlines">
+
+    <div class="panelTitle">
+      <span class="cyan">◉</span> TODAY HEADLINES
+    </div>
+
+    <div class="news">
+      <span class="newsTime">08:30</span>
+      Hurricane activity and global weather monitoring update.
+    </div>
+
+    <div class="news">
+      <span class="newsTime">07:45</span>
+      Global technology and security systems update.
+    </div>
+
+    <div class="news">
+      <span class="newsTime">06:20</span>
+      Researchers announce breakthroughs in sustainable technology.
+    </div>
+
+    <div class="news">
+      <span class="newsTime">05:10</span>
+      New AI models continue improving language understanding.
+    </div>
+
+  </div>
+
+
+  <div class="panel statusPanel">
+
+    <div class="panelTitle">
+      <span class="cyan">◉</span> SYSTEM STATUS
+    </div>
+
+    <div class="statRow">
+      <span>Power</span>
+      <div class="bar"><i style="width:95%"></i></div>
+      <b>95%</b>
+    </div>
+
+    <div class="statRow">
+      <span>Network</span>
+      <div class="bar"><i style="width:88%"></i></div>
+      <b>Strong</b>
+    </div>
+
+    <div class="statRow">
+      <span>Security</span>
+      <div class="bar"><i style="width:96%"></i></div>
+      <b>Secure</b>
+    </div>
+
+    <div class="statRow">
+      <span>Agents</span>
+      <div class="bar"><i style="width:100%"></i></div>
+      <b>5/5</b>
+    </div>
+
+    <div class="statRow">
+      <span>Core Temp</span>
+      <div class="bar"><i style="width:42%"></i></div>
+      <b>42°C</b>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= CENTER COLUMN ================= -->
+
+<div class="column centerColumn">
+
+  <div class="panel core">
+
+    <div class="modules">
+
+      <div class="module m1">
+        <b class="cyan">◉ MEMORY</b>
+        Active
+      </div>
+
+      <div class="module m2">
+        <b class="orange">▣ SKILLS</b>
+        Active
+      </div>
+
+      <div class="module m3">
+        <b class="green">◉ VOICES</b>
+        Active
+      </div>
+
+      <div class="module m4">
+        <b>⚙ SETTINGS</b>
+        Active
+      </div>
+
+      <div class="module m5">
+        <b>◉ SYSTEM CORE</b>
+        CPU Usage 42%
+      </div>
+
+      <div class="module m6">
+        <b>MEMORY</b>
+        68%
+      </div>
+
+      <div class="module m7">
+        <b class="green">AI POWER</b>
+        92%
+      </div>
+
+      <div class="module m8">
+        <b>RESPONSE</b>
+        0.8s
+      </div>
+
+    </div>
+
+    <div class="coreCircle">
+      <div class="globe">🌐</div>
+    </div>
+
+    <div class="coreLabel">START AI</div>
+
+  </div>
+
+
+  <!-- AGENT TOWN -->
+
+  <div class="panel agentPanel">
+
+    <div class="agentHeader">
+
+      <div class="agentTitle">
+        ◉ AGENT TOWN &nbsp; <span class="green">LIVE OFFICE</span>
+      </div>
+
+      <div class="filters">
+        <button class="filter active">All Agents</button>
+        <button class="filter">Working</button>
+        <button class="filter">Idle</button>
+      </div>
+
     </div>
 
 
-    <div id="chat" class="chat">
+    <div class="agentStats">
 
+      <div class="agentStat">
+        <strong>5</strong>
+        <span>TOTAL AGENTS</span>
+      </div>
 
-        <div class="welcome">
+      <div class="agentStat">
+        <strong class="green">3</strong>
+        <span>WORKING</span>
+      </div>
 
-            <div class="robot">
-                🤖
-            </div>
+      <div class="agentStat">
+        <strong class="orange">1</strong>
+        <span>IDLE</span>
+      </div>
 
-            <div>
-                STONIC AI
-            </div>
-
-            <div
-                id="voiceState"
-                class="voiceState"
-            >
-                SYSTEM READY
-            </div>
-
-        </div>
-
-
-        <div
-            id="messages"
-        ></div>
-
+      <div class="agentStat">
+        <strong style="color:#ff5555">1</strong>
+        <span>OFFLINE</span>
+      </div>
 
     </div>
 
 
-    <div class="input">
+    <!-- 2D OFFICE -->
 
-        <input
-            id="command"
-            type="text"
-            placeholder="Give STONIC a task..."
-            onkeydown="handleEnter(event)"
-        >
+    <div class="office">
 
-        <button onclick="sendCommand()">
-            SEND
-        </button>
+      <div class="floor"></div>
 
-        <button onclick="startVoice()">
-            🎙️
-        </button>
+      <div class="room roomTop"></div>
+      <div class="room roomBottom"></div>
+      <div class="divider"></div>
+
+      <!-- furniture -->
+
+      <div class="desk2d d1">
+        <div class="monitor"></div>
+      </div>
+
+      <div class="desk2d d2">
+        <div class="monitor"></div>
+      </div>
+
+      <div class="desk2d d3">
+        <div class="monitor"></div>
+      </div>
+
+      <div class="desk2d d4">
+        <div class="monitor"></div>
+      </div>
+
+      <div class="desk2d d5">
+        <div class="monitor"></div>
+      </div>
+
+
+      <!-- plants -->
+
+      <div class="plant" style="left:3%;top:8%">🪴</div>
+      <div class="plant" style="right:4%;top:10%">🪴</div>
+      <div class="plant" style="left:4%;bottom:8%">🪴</div>
+      <div class="plant" style="right:5%;bottom:8%">🪴</div>
+
+
+      <!-- AGENTS -->
+
+      <div class="agent greenA a1 working" data-name="RESEARCH">
+        <div class="agentName2">RESEARCH AGENT</div>
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+
+      <div class="agent blueA a2 working" data-name="CODING">
+        <div class="agentName2">CODING AGENT</div>
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+
+      <div class="agent orangeA a3" data-name="DOCUMENT">
+        <div class="agentName2">DOCUMENT AGENT</div>
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+
+      <div class="agent purpleA a4" data-name="PLANNER">
+        <div class="agentName2">PLANNER AGENT</div>
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+
+      <div class="agent a5 working" data-name="MAIN AI">
+        <div class="agentName2">MAIN AI</div>
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
 
     </div>
 
 
-</section>
+    <div class="bottomStats">
+
+      <div class="bottomStat">
+        <span>◉ Office Level</span>
+        <strong>1</strong>
+      </div>
+
+      <div class="bottomStat">
+        <span>Tasks Completed</span>
+        <strong>24</strong>
+      </div>
+
+      <div class="bottomStat">
+        <span>Efficiency</span>
+        <strong>87%</strong>
+      </div>
+
+      <div class="bottomStat">
+        <span>AI Mood</span>
+        <strong class="green">EXCELLENT ☺</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
 
-</main>
+<!-- ================= RIGHT COLUMN ================= -->
 
+<div class="column rightColumn">
+
+  <div class="panel voicePanel">
+
+    <div class="voiceTabs">
+      <div class="voiceTab active">VOICE</div>
+      <div class="voiceTab">AGENT</div>
+      <div class="voiceTab">NOTES</div>
+      <div class="voiceTab">＋</div>
+    </div>
+
+
+    <div class="voiceCenter">
+
+      <div class="voiceIcon">♙</div>
+
+      <h2>STONIC AI</h2>
+
+      <div class="wave">
+        <i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+      </div>
+
+    </div>
+
+
+    <div class="chat" id="chat">
+
+      <div class="bubble">
+        <strong>◉ STONIC AI</strong><br><br>
+        Hello! I'm STONIC AI.<br>
+        How can I assist you today?
+      </div>
+
+      <div class="bubble user">
+        <strong>You</strong><br><br>
+        Hello Stonic!
+      </div>
+
+      <div class="bubble">
+        <strong>◉ STONIC AI</strong><br><br>
+        Hello! How can I help you?
+      </div>
+
+      <div class="bubble user">
+        <strong>You</strong><br><br>
+        Show me today's system status.
+      </div>
+
+      <div class="bubble">
+        <strong>◉ STONIC AI</strong><br><br>
+        Here is your system status overview.<br><br>
+        • All Systems: <span class="green">Operational</span><br>
+        • Agents: <span class="green">5 Active</span><br>
+        • Network: <span class="green">Strong</span><br>
+        • Security: <span class="green">Secure</span><br>
+        • Performance: <span class="green">Optimal</span>
+      </div>
+
+      <div class="thinking">
+        STONIC AI is thinking... ● ● ●
+      </div>
+
+    </div>
+
+
+    <div class="inputArea">
+
+      <input
+        id="message"
+        placeholder="Type instruction or command for STONIC AI..."
+        onkeydown="handleEnter(event)"
+      >
+
+      <button class="mic" onclick="voiceInput()">🎙</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+
+<div class="footer">
+  ⚡ STONIC AI &nbsp; • &nbsp; SYSTEM ONLINE &nbsp; • &nbsp; AI MODE
+</div>
 
 
 <script>
 
-/* =====================================================
-   STONIC AGENT TOWN
-===================================================== */
+/* ================= CHAT ================= */
 
+function sendMessage(){
 
-/* =========================
-   AGENT POSITIONS
-========================= */
+  const input=document.getElementById("message");
+  const text=input.value.trim();
 
-const agents = {
+  if(!text) return;
 
-    research:{
-        id:"research",
+  const chat=document.getElementById("chat");
 
-        area:[
-            [55,80],
-            [155,90],
-            [175,175],
-            [70,200]
-        ],
+  const user=document.createElement("div");
+  user.className="bubble user";
 
-        desk:[70,145]
-    },
+  user.innerHTML="<strong>You</strong><br><br>"+
+                 escapeHTML(text);
 
+  chat.appendChild(user);
 
-    coding:{
-        id:"coding",
+  input.value="";
 
-        area:[
-            [390,80],
-            [500,90],
-            [505,180],
-            [390,200]
-        ],
+  setTimeout(function(){
 
-        desk:[430,145]
-    },
+    const ai=document.createElement("div");
 
+    ai.className="bubble";
 
-    document:{
-        id:"document",
+    ai.innerHTML=
+      "<strong>◉ STONIC AI</strong><br><br>"+
+      "Understood. I'm processing your request.";
 
-        area:[
-            [55,375],
-            [160,380],
-            [175,490],
-            [60,500]
-        ],
+    chat.appendChild(ai);
 
-        desk:[70,445]
-    },
+    chat.scrollTop=chat.scrollHeight;
 
+  },700);
 
-    planner:{
-        id:"planner",
-
-        area:[
-            [390,375],
-            [500,390],
-            [505,490],
-            [390,500]
-        ],
-
-        desk:[430,445]
-    }
-
-};
-
-
-/* =========================
-   MOVE AGENT
-========================= */
-
-function moveAgent(agentName,x,y){
-
-    const agent=
-        document.getElementById(agentName);
-
-    if(!agent)return;
-
-    agent.style.left=x+"px";
-    agent.style.top=y+"px";
-}
-
-
-/* =========================
-   RANDOM WALK
-========================= */
-
-function walkAgent(agentName){
-
-    const data=
-        agents[agentName];
-
-    const element=
-        document.getElementById(agentName);
-
-    if(!data || !element)return;
-
-
-    /* Don't disturb working agent */
-
-    if(element.classList.contains("working")){
-        return;
-    }
-
-
-    const target=
-        data.area[
-            Math.floor(
-                Math.random()*data.area.length
-            )
-        ];
-
-
-    element.classList.add("walking");
-
-
-    moveAgent(
-        agentName,
-        target[0],
-        target[1]
-    );
-
-
-    setTimeout(
-        function(){
-
-            element.classList.remove(
-                "walking"
-            );
-
-        },
-        1400
-    );
-}
-
-
-/* =========================
-   ALL AGENTS WANDER
-========================= */
-
-setInterval(function(){
-
-    walkAgent("research");
-
-    setTimeout(
-        ()=>walkAgent("coding"),
-        400
-    );
-
-    setTimeout(
-        ()=>walkAgent("document"),
-        800
-    );
-
-    setTimeout(
-        ()=>walkAgent("planner"),
-        1200
-    );
-
-},4500);
-
-
-/* =========================
-   SEND AGENT TO WORK
-========================= */
-
-function sendAgentToWork(
-    agentName,
-    task
-){
-
-    const data=
-        agents[agentName];
-
-    const element=
-        document.getElementById(agentName);
-
-    if(!data || !element)return;
-
-
-    /* working */
-
-    element.classList.add(
-        "working"
-    );
-
-    element.classList.remove(
-        "walking"
-    );
-
-
-    /* go to desk */
-
-    moveAgent(
-        agentName,
-        data.desk[0],
-        data.desk[1]
-    );
-
-
-    addMessage(
-        "STONIC: "+agentName.toUpperCase()+
-        " is working on the task.",
-        "ai"
-    );
-
-
-    /*
-       Demo task duration.
-       Later this can be connected
-       to a real AI backend.
-    */
-
-    setTimeout(
-        function(){
-
-            element.classList.remove(
-                "working"
-            );
-
-
-            addMessage(
-                "STONIC: "+
-                agentName.toUpperCase()+
-                " finished the task.",
-                "ai"
-            );
-
-
-            walkAgent(agentName);
-
-        },
-        7000
-    );
-}
-
-
-/* =========================
-   CHAT
-========================= */
-
-function addMessage(
-    text,
-    type
-){
-
-    const box=
-        document.getElementById(
-            "messages"
-        );
-
-
-    const message=
-        document.createElement(
-            "div"
-        );
-
-
-    message.className=
-        type==="user"
-        ? "userMessage"
-        : "aiMessage";
-
-
-    message.textContent=text;
-
-
-    box.appendChild(
-        message
-    );
-
-
-    const chat=
-        document.getElementById(
-            "chat"
-        );
-
-
-    chat.scrollTop=
-        chat.scrollHeight;
-}
-
-
-function sendCommand(){
-
-    const input=
-        document.getElementById(
-            "command"
-        );
-
-
-    const text=
-        input.value.trim();
-
-
-    if(!text)return;
-
-
-    input.value="";
-
-
-    addMessage(
-        "YOU: "+text,
-        "user"
-    );
-
-
-    processCommand(text);
 }
 
 
 function handleEnter(event){
 
-    if(event.key==="Enter"){
-        sendCommand();
-    }
+  if(event.key==="Enter"){
+    sendMessage();
+  }
+
 }
 
 
-/* =========================
-   COMMAND ROUTER
-========================= */
-
-function processCommand(text){
-
-    const lower=
-        text.toLowerCase();
-
-
-    /* hello */
-
-    if(
-        lower==="hello" ||
-        lower==="hi" ||
-        lower.includes("hello stonic")
-    ){
-
-        reply(
-            "Hello! STONIC is online."
-        );
-
-        return;
-    }
-
-
-    /* research */
-
-    if(
-        lower.includes("research") ||
-        lower.includes("search") ||
-        lower.includes("find")
-    ){
-
-        reply(
-            "Research Agent is starting the task."
-        );
-
-        sendAgentToWork(
-            "research",
-            text
-        );
-
-        return;
-    }
-
-
-    /* coding */
-
-    if(
-        lower.includes("code") ||
-        lower.includes("coding") ||
-        lower.includes("program")
-    ){
-
-        reply(
-            "Coding Agent is starting the task."
-        );
-
-        sendAgentToWork(
-            "coding",
-            text
-        );
-
-        return;
-    }
-
-
-    /* document */
-
-    if(
-        lower.includes("document") ||
-        lower.includes("report") ||
-        lower.includes("write")
-    ){
-
-        reply(
-            "Document Agent is starting the task."
-        );
-
-        sendAgentToWork(
-            "document",
-            text
-        );
-
-        return;
-    }
-
-
-    /* planner */
-
-    if(
-        lower.includes("plan") ||
-        lower.includes("planning") ||
-        lower.includes("schedule")
-    ){
-
-        reply(
-            "Planner Agent is starting the task."
-        );
-
-        sendAgentToWork(
-            "planner",
-            text
-        );
-
-        return;
-    }
-
-
-    reply(
-        "I understand. Give me a specific task."
-    );
-}
-
-
-/* =========================
-   VOICE
-========================= */
+/* ================= VOICE ================= */
 
 let recognition=null;
 let listening=false;
-let speaking=false;
-let restarting=false;
-
 
 const SpeechRecognition=
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
 
 if(SpeechRecognition){
 
-    recognition=
-        new SpeechRecognition();
+  recognition=new SpeechRecognition();
 
+  recognition.continuous=false;
+  recognition.interimResults=false;
+  recognition.lang="en-US";
 
-    recognition.continuous=false;
+  recognition.onresult=function(event){
 
-    recognition.interimResults=false;
+    const text=
+      event.results[0][0].transcript;
 
-    recognition.lang="en-US";
+    document.getElementById("message").value=text;
 
+    sendMessage();
 
-    recognition.onstart=function(){
+  };
 
-        restarting=false;
+  recognition.onend=function(){
 
-        if(listening && !speaking){
+    listening=false;
 
-            setVoice(
-                "🎙️ LISTENING..."
-            );
-        }
-    };
+  };
 
-
-    recognition.onresult=function(event){
-
-        let text="";
-
-
-        for(
-            let i=event.resultIndex;
-            i<event.results.length;
-            i++
-        ){
-
-            if(
-                event.results[i].isFinal
-            ){
-
-                text +=
-                    event.results[i][0]
-                    .transcript;
-
-            }
-        }
-
-
-        text=text.trim();
-
-
-        if(!text)return;
-
-
-        /*
-           Stop microphone while
-           STONIC is speaking.
-        */
-
-        speaking=true;
-
-
-        try{
-            recognition.stop();
-        }
-        catch(e){}
-
-
-        addMessage(
-            "YOU 🎙️: "+text,
-            "user"
-        );
-
-
-        processCommand(text);
-    };
-
-
-    recognition.onend=function(){
-
-        restarting=false;
-
-
-        /*
-           Browser may stop after silence.
-           Restart automatically.
-        */
-
-        if(
-            listening &&
-            !speaking
-        ){
-
-            setTimeout(
-                restartVoice,
-                300
-            );
-        }
-    };
-
-
-    recognition.onerror=function(event){
-
-        restarting=false;
-
-
-        if(
-            event.error==="not-allowed"
-        ){
-
-            listening=false;
-            speaking=false;
-
-            setVoice(
-                "⚠️ MICROPHONE PERMISSION DENIED"
-            );
-
-            return;
-        }
-
-
-        if(
-            listening &&
-            !speaking
-        ){
-
-            setTimeout(
-                restartVoice,
-                600
-            );
-        }
-    };
 }
 
 
-/* =========================
-   START VOICE
-========================= */
+function voiceInput(){
 
-function startVoice(){
+  if(!recognition){
 
-    if(!recognition){
+    alert("Voice recognition is not supported in this browser.");
 
-        setVoice(
-            "VOICE NOT SUPPORTED"
-        );
+    return;
 
-        return;
-    }
+  }
 
+  if(listening){
 
-    if(listening){
+    recognition.stop();
+    return;
 
-        listening=false;
-        speaking=false;
+  }
 
-        try{
-            recognition.stop();
-        }
-        catch(e){}
+  listening=true;
 
-        speechSynthesis.cancel();
+  try{
+    recognition.start();
+  }
+  catch(e){
+    listening=false;
+  }
 
-        setVoice(
-            "MICROPHONE OFF"
-        );
-
-        return;
-    }
-
-
-    listening=true;
-    speaking=false;
-
-
-    setVoice(
-        "🎙️ STARTING..."
-    );
-
-
-    restartVoice();
 }
 
 
-/* =========================
-   RESTART VOICE
-========================= */
+/* ================= AGENT MOVEMENT ================= */
 
-function restartVoice(){
+const agents=
+document.querySelectorAll(".agent");
 
-    if(
-        !recognition ||
-        !listening ||
-        speaking ||
-        restarting
-    ){
-        return;
-    }
+function moveAgent(agent){
 
+  const office=
+    document.querySelector(".office");
 
-    restarting=true;
+  if(!office) return;
 
+  const maxX=
+    office.clientWidth-55;
 
-    try{
+  const maxY=
+    office.clientHeight-65;
 
-        recognition.start();
+  const x=
+    15+Math.random()*(maxX-30);
 
-    }
-    catch(error){
+  const y=
+    15+Math.random()*(maxY-30);
 
-        restarting=false;
+  agent.style.left=x+"px";
+  agent.style.top=y+"px";
 
-
-        setTimeout(
-            restartVoice,
-            600
-        );
-    }
 }
 
 
-/* =========================
-   VOICE STATUS
-========================= */
+function randomAgentMovement(){
 
-function setVoice(text){
+  agents.forEach(function(agent){
 
-    document.getElementById(
-        "voiceState"
-    ).textContent=text;
-}
+    /*
+      कुछ agents थोड़ी देर बाद
+      ऑफिस में दूसरी जगह चलते हैं.
+    */
 
+    if(Math.random()>0.35){
 
-/* =========================
-   TEXT TO SPEECH
-========================= */
+      moveAgent(agent);
 
-function reply(text){
-
-    addMessage(
-        "STONIC 🔊: "+text,
-        "ai"
-    );
-
-
-    speak(text);
-}
-
-
-function speak(text){
-
-    speaking=true;
-
-
-    try{
-        recognition.stop();
     }
-    catch(e){}
 
+  });
 
-    speechSynthesis.cancel();
-
-
-    const voice=
-        new SpeechSynthesisUtterance(
-            text
-        );
-
-
-    voice.lang="en-US";
-
-    voice.rate=.88;
-
-    voice.pitch=1.02;
-
-    voice.volume=1;
-
-
-    voice.onstart=function(){
-
-        setVoice(
-            "🔊 STONIC SPEAKING..."
-        );
-    };
-
-
-    voice.onend=function(){
-
-        speaking=false;
-
-
-        if(listening){
-
-            setVoice(
-                "🎙️ LISTENING..."
-            );
-
-
-            setTimeout(
-                restartVoice,
-                400
-            );
-
-        }
-        else{
-
-            setVoice(
-                "SYSTEM READY"
-            );
-        }
-    };
-
-
-    speechSynthesis.speak(
-        voice
-    );
 }
 
 
-/* =========================
-   INITIAL MESSAGE
-========================= */
+/*
+  हर कुछ seconds में agents move करेंगे.
+*/
 
-addMessage(
-    "STONIC: Agent Town is online. Your AI team is ready.",
-    "ai"
-);
+setInterval(randomAgentMovement,5000);
+
+
+/* ================= WORKING ANIMATION ================= */
+
+setInterval(function(){
+
+  agents.forEach(function(agent){
+
+    if(Math.random()>0.45){
+
+      agent.classList.toggle("working");
+
+    }
+
+  });
+
+},3500);
+
+
+/* ================= SAFE TEXT ================= */
+
+function escapeHTML(text){
+
+  return text
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
 
 </script>
 
